@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="podcastGenerator" default="clean-and-build" basedir=".">
+    <description>Builds the project podcast-creator.</description>
+
+    <target name="clean-and-build" depends="init,clean">
+       <javac srcdir="${src.dir}"
+         destdir="${build.dir}"
+         classpathref="libraries"
+         debug="on"
+         source="1.5"/>
+         
+         <!-- jar it up -->
+         <jar destfile="${dist.dir}/podcastGenerator.jar" basedir="${build.dir}"/>
+         
+         <mkdir dir="${dist.dir}/lib" />
+         
+         <!-- Copy the run files and the config files to the dist folder, and the lib jars to the dist/lib folder -->
+         <copy todir="${dist.dir}/lib" includeEmptyDirs="false">
+          <fileset dir="${src.dir}">
+            <exclude name="**/*.java"/>
+          </fileset>
+          
+          <fileset dir="lib">
+            <include name="*.jar"/>
+          </fileset>
+         </copy>
+         
+         
+         <copy todir="${dist.dir}" includeEmptyDirs="false">
+          <fileset dir=".">
+            <include name="*.sh"/>
+            <include name="*.bat"/>
+          </fileset>
+          </copy>         
+         
+    </target>
+
+    <target name="init">
+      <property file="build.properties"/>
+    </target>
+
+    <target name="clean" >
+        <delete dir="${build.dir}" failonerror="false"/>
+        <delete dir="${dist.dir}" failonerror="false"/>
+        <mkdir dir="${dist.dir}"/>
+        <mkdir dir="${build.dir}"/>
+    </target>
+
+    <path id="libraries">  
+      <pathelement path="lib/commons-logging-1.1.1.jar"/>
+      <pathelement path="lib/itunes-0.4.jar"/>
+      <pathelement path="lib/jdom.jar"/>
+      <pathelement path="lib/jl1.0.1.jar"/>
+      <pathelement path="lib/list.txt"/>
+      <pathelement path="lib/log4j-1.2.16.jar"/>
+      <pathelement path="lib/mp3spi1.9.5.jar"/>
+      <pathelement path="lib/org.springframework.aop-3.0.5.RELEASE.jar"/>
+      <pathelement path="lib/org.springframework.asm-3.0.5.RELEASE.jar"/>
+      <pathelement path="lib/org.springframework.aspects-3.0.5.RELEASE.jar"/>
+      <pathelement path="lib/org.springframework.beans-3.0.5.RELEASE.jar"/>
+      <pathelement path="lib/org.springframework.context-3.0.5.RELEASE.jar"/>
+      <pathelement path="lib/org.springframework.context.support-3.0.5.RELEASE.jar"/>
+      <pathelement path="lib/org.springframework.core-3.0.5.RELEASE.jar"/>
+      <pathelement path="lib/org.springframework.expression-3.0.5.RELEASE.jar"/>
+      <pathelement path="lib/rome-1.0.jar"/>
+      <pathelement path="lib/tritonus_share.jar"/>
+    </path>  
+
+
+                       
+
+</project>
