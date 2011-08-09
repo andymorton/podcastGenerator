@@ -1,3 +1,7 @@
+// Copyright (c) 2011, Andrew Morton. All rights reserved.
+// Use of this source code is governed by a MIT-style license that can be
+// found in the LICENSE file.
+
 package com.morty.podcast.writer;
 
 import com.sun.syndication.feed.module.itunes.EntryInformation;
@@ -53,8 +57,6 @@ import org.apache.commons.logging.LogFactory;
  * Modified 15/02/2011 to use the filename date of YYYYMMDD
  * Modified 25/07/2011 for major refactor and handle UTF8 filenames.
  *
- * TODO - Add Open Source license...
- * TODO - Add Copyright to all files
  *
  * Copyright 2011
  * @author amorton
