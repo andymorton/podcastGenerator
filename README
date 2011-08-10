@@ -1,0 +1,61 @@
+README
+
+What is this app?
+----------------------------------------
+
+This application was developed because I needed a quick way to take a folder structure
+and turn it into a podcast feed. The structure was there, I just wanted to use it.
+So I wrote this, and with the use of the mighty Dropbox, hosted everything, all synced.
+
+If you need to generate a podcast and have all the files just ready (on your server or otherwise)
+then this is a handy little app to generate the xml for you.
+
+
+
+Quick start
+----------------------------------------
+Once built, just alter the lib/standard-podcast-context.xml, and execute run(.sh|bat)
+It should take care of the rest.
+The folder structure should be
+
+mainFolder
+	-category1
+		-file
+		-file
+		-file
+	-category2
+		-...
+
+Placing a info.txt file in either the category folder or the mainFolder allows you to override the defaults
+and provide more info, like Author,Custom Descriptions and Description Templates
+A full list of all options will appear here soon!
+
+Building
+----------------------------------------
+Ensure all libaries are there in the lib folder and run the build script:
+
+ant -f build.xml
+
+A list of all libraries used should be in the lib folder.
+
+
+Testing
+----------------------------------------
+In the midst of writing a test script... be patient. 
+Basically the best thing to create the folder structure, and point the generator at it.
+And then have a look at the xml!
+
+Running
+----------------------------------------
+Use run.(sh|bat) to run it, or alternatively, add the respective libraries to your classpath and run the jar
+
+java -cp $CP -jar podcastGenerator.jar
+
+Other Info
+----------------------------------------
+
+Be aware that its not cool to have spaces in the name, so make sure each sub-directory and each file below
+that does not have a space in its name!
+This is particularly prevalent on Mac OS X as in iTunes it will not recognise a URL with a space in it (as per
+the spec), but it Windows it will be fine.
+
