@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="podcastGeneratorTest" default="clean-and-test" basedir=".">
+    <description>Tests the podcast-creator.</description>
+
+    <property file="test.properties"/>
+
+    <target name="clean-and-test" depends="clean,init">
+        
+		 <!-- Run the podcast against the testpack-->
+		 
+		 <!-- Compare the files generated -->
+		 
+		 
+    </target>
+
+	<target name="generateCheckSums">
+		<checksum totalproperty="testpackCheckSum">
+		   <fileset file="${testpack.dir}/${testpack.masterxml}"/>
+		</checksum>
+		<checksum totalproperty="generatedCheckSum">
+		   <fileset file="${test.dir}/${test.generatedxml}"/>
+		</checksum>
+		<condition property="checksuccess">  
+			<equals arg1="${testpackCheckSum}" arg2="${generatedCheckSum}" />  
+		</condition>
+	</target>
+
+	
+	<target name="compare" depends="generateCheckSums" if="filesAreSame">
+		<echo message="Test completed Successfully"/>
+	</target>
+	
+	
+    <target name="init">
+        <mkdir dir="${test.dir}"/>
+    </target>
+
+    <target name="clean" >
+        <delete dir="${test.dir}" failonerror="false"/>
+    </target>
+
+	
+
+</project>
