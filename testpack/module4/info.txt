@@ -1,0 +1,2 @@
+Author=Module4 Lecturer
+Template=Module4 (%s) - %s
