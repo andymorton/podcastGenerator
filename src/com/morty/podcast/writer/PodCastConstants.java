@@ -73,15 +73,15 @@ public class PodCastConstants
     /**
      * Default Podcast Title
      */
-    public static final String DEFAULT_FEED_TITLE = "FMBC Podcast Feed";
+    public static final String DEFAULT_FEED_TITLE = "Default Podcast Title";
     /**
      * Default Copyright
      */
-    public static final String DEFAULT_FEED_COPYRIGHT="Copyright FMBC";
+    public static final String DEFAULT_FEED_COPYRIGHT="Default Copyright Notice";
     /**
      * Default Podcast Description
      */
-    public static final String DEFAULT_FEED_DESCRIPTION = "FMBC Theology Lecture Podcast";
+    public static final String DEFAULT_FEED_DESCRIPTION = "Default Podcast Description";
     /**
      * Default file duration.
      */
