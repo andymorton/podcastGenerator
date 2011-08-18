@@ -1,8 +1,8 @@
 echo off
 setlocal enabledelayedexpansion
-set cp=lib
+set cp=lib:.:./podcastGenerator.jar
 for %%f in (lib/*.jar) do (
-	set cp=!cp!;lib/%%f%
+	set cp=!cp!;%%f%
 )
 
-java -cp %cp% -jar podcastGenerator.jar standard-podcast-context.xml
+java -cp %cp% com.morty.podcast.writer.PodCastCreationRunner standard-podcast-context.xml

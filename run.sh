@@ -1,9 +1,10 @@
 #!/bin/sh
-newclasspath=lib
+CLASSPATH=lib:.:./podcastGenerator.jar
 for i in lib/*.jar
 do
-newclasspath=$newclasspath:lib/$i
+CLASSPATH=$CLASSPATH:$i
 done
 
+echo $CLASSPATH
 
-java -cp $newclasspath -jar podcastGenerator.jar standard-podcast-context.xml
+java -classpath $CLASSPATH com.morty.podcast.writer.PodCastCreationRunner standard-podcast-context.xml

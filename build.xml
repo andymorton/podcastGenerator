@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="podcastGenerator" default="clean-and-build" basedir=".">
+<project name="podcastGenerator" default="build-and-test" basedir=".">
     <description>Builds the project podcast-creator.</description>
 
+    <!-- allow for testing  -->
+     <import file="test.xml"/>
+
     <property file="build.properties"/>
+
+    <target name="build-and-test" depends="clean-and-build,clean-and-test"/>
 
     <target name="clean-and-build" depends="clean,init">
        <javac srcdir="${src.dir}"
@@ -12,12 +17,8 @@
          source="1.5"/>
          
          <!-- jar it up -->
-         <jar destfile="${dist.dir}/podcastGenerator.jar" basedir="${build.dir}">
-          <manifest>
-            <attribute name="Main-Class" value="com.morty.podcast.writer.PodCastCreationRunner"/>
-          </manifest>
-         </jar>
-         
+         <jar destfile="${dist.dir}/podcastGenerator.jar" basedir="${build.dir}"/>
+          
          <mkdir dir="${dist.dir}/lib" />
          
          <!-- Copy the run files and the config files to the dist folder, and the lib jars to the dist/lib folder -->

@@ -4,41 +4,56 @@
 
     <property file="test.properties"/>
 
-    <target name="clean-and-test" depends="clean,init">
+    <target name="clean-and-test" depends="test-clean,test-init">
         
-		 <!-- Run the podcast against the testpack-->
-		 
-		 <!-- Compare the files generated -->
-		 
+		 <!-- Run the podcast against the testpack-->       
+       <java classname="com.morty.podcast.writer.PodCastCreationRunner"
+           dir="${basedir}/dist"
+           failonerror="true"
+           classpathref="test.classpath"
+           maxmemory="128m">
+         <arg value="${test.spring.context}"/>
+       </java>
+       
+       <!-- Compare the files generated and fail build if different.-->
+	  <antcall target="compareFiles"/>
 		 
     </target>
 
 	<target name="generateCheckSums">
-		<checksum totalproperty="testpackCheckSum">
-		   <fileset file="${testpack.dir}/${testpack.masterxml}"/>
-		</checksum>
-		<checksum totalproperty="generatedCheckSum">
-		   <fileset file="${test.dir}/${test.generatedxml}"/>
-		</checksum>
-		<condition property="checksuccess">  
-			<equals arg1="${testpackCheckSum}" arg2="${generatedCheckSum}" />  
-		</condition>
+		<condition property="filesAreSame" value="true">
+            <filesmatch file1="${testpack.masterxml}" file2="${test.dir}/${test.generatedxml}"/> 
+         </condition>
+		<echo message="Success?[${filesAreSame}]" />
 	</target>
 
 	
-	<target name="compare" depends="generateCheckSums" if="filesAreSame">
+	<target name="compareFiles" depends="generateCheckSums,reportFailure" if="filesAreSame">
 		<echo message="Test completed Successfully"/>
 	</target>
 	
+	<!-- fail the build -->
+	<target name="reportFailure" unless="filesAreSame">
+		<fail message="Generated Files are different from master..."/>
+	</target>
 	
-    <target name="init">
+    <target name="test-init">
         <mkdir dir="${test.dir}"/>
     </target>
 
-    <target name="clean" >
+    <target name="test-clean" >
         <delete dir="${test.dir}" failonerror="false"/>
     </target>
 
+
+    <path id="test.classpath">
+      <pathelement path="${basedir}/dist/lib"/>
+      <pathelement path="${basedir}"/>
+      <fileset dir="${basedir}/dist">
+         <include name="lib/*.jar"/>
+         <include name="*.jar"/>
+      </fileset>
+    </path>
 	
 
 </project>
