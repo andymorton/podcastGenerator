@@ -36,20 +36,27 @@ Ensure all libaries are there in the lib folder and run the build script:
 
 ant -f build.xml
 
+This will build and test the podcast generator.
+
 A list of all libraries used should be in the lib folder.
 
 
 Testing
 ----------------------------------------
-In the midst of writing a test script... be patient. 
-Basically the best thing to create the folder structure, and point the generator at it.
-And then have a look at the xml!
+Testing is performed as default. 
+However, please see the testpack, and the test.xml for more info on how this works.
+For those who are short of time, it basically runs the podcast Generator against the
+testpack and compares it with the test file.
+
 
 Running
 ----------------------------------------
-Use run.(sh|bat) to run it, or alternatively, add the respective libraries to your classpath and run the jar
+Use run.(sh|bat) to run it, or alternatively, add the respective libraries to your classpath and run the class
 
-java -cp $CP -jar podcastGenerator.jar
+java -cp $CP com.morty.podcast.writer.PodCastCreationRunner <context file>
+
+where the <context file> is the setting file.
+
 
 Other Info
 ----------------------------------------
