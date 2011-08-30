@@ -393,7 +393,22 @@ public class PodCastGenerator
                     m_logger.debug("Splitting description from filename");
                     //split the desc (ie use the unit, description and the module)
                     String[] descParts = descriptionFromName.split("\\.");
-                    desc = String.format(PodCastUtils.getMapValue(customValues, PodCastConstants.ITEM_DESC_TEMPLATE, PodCastConstants.DEFAULT_DESC),descParts[0],descParts[1]);
+
+                    if(descParts.length == 2)
+                        //Use [1] and [2] as we now return the date...
+                        desc = String.format(PodCastUtils.getMapValue(customValues, PodCastConstants.ITEM_DESC_TEMPLATE, PodCastConstants.DEFAULT_DESC),descParts[1],descParts[2]);
+
+                    if(descParts.length == 4)
+                    {
+                        Map parameterValues = new HashMap();
+                        parameterValues.put(PodCastConstants.PARSED_DATE, descParts[0]);
+                        parameterValues.put(PodCastConstants.PARSED_UNIT, descParts[1]);
+                        parameterValues.put(PodCastConstants.PARSED_DESC, descParts[2]);
+                        parameterValues.put(PodCastConstants.PARSED_MODULE, descParts[3]);
+
+                        desc = PodCastUtils.replaceParameters(desc, customValues);
+                    }
+
                 }
 
             }

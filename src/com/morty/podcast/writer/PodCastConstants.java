@@ -138,6 +138,15 @@ public class PodCastConstants
      * Key name for podcast generator bean
      */
     public static final String PODCAST_GENERATOR_BEAN="podCastGenerator";
+
+    /**
+     * Default parameter for parameters
+     */
+    public static final String PARSED_DATE="${date}";
+    public static final String PARSED_UNIT="${unit}";
+    public static final String PARSED_DESC="${description}";
+    public static final String PARSED_MODULE="${module}";
+
     
     
 }

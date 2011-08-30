@@ -10,10 +10,12 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import javax.sound.sampled.AudioFileFormat;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.tritonus.share.sampled.file.TAudioFileFormat;
@@ -78,8 +80,8 @@ public class PodCastUtils
         String returnValue = "";
         if(values.length !=2 )// no description (maybe simple mode!)
         {
-            //remove last and first.
-            for(int i=1; i < values.length-1; i++ )
+            //remove last.
+            for(int i=0; i < values.length-1; i++ )
             {
                 returnValue += values[i]+".";
             }
@@ -228,6 +230,29 @@ public class PodCastUtils
         return httpRoot+"/"+file.getName()+httpSuffix;
     }
 
+
+    /*
+     * Allow for parameters in Template.
+     * ${date}
+     * ${unit}
+     * ${description}
+     * ${module}
+     */
+    public static String replaceParameters(String original, Map<String,String> values)
+    {
+        //Replace the strings...
+        String returnValue = original;
+        Iterator it =values.keySet().iterator();
+        while(it.hasNext())
+        {
+            String key= (String) it.next();
+            if(StringUtils.contains(returnValue, key))
+            {
+                StringUtils.replace(returnValue, key, values.get(key));
+            }
+        }
+        return returnValue;
+    }
     
 
 
