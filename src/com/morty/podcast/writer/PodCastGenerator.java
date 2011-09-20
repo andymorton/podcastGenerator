@@ -28,6 +28,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -56,7 +57,7 @@ import org.apache.commons.logging.LogFactory;
  *
  * Modified 15/02/2011 to use the filename date of YYYYMMDD
  * Modified 25/07/2011 for major refactor and handle UTF8 filenames.
- *
+ * Modified September 2011 for new features.
  *
  * Copyright 2011
  * @author amorton
@@ -65,7 +66,9 @@ public class PodCastGenerator
 {
     
     private static final Log m_logger = LogFactory.getLog(PodCastGenerator.class);
-    
+    private static final ResourceBundle m_supportedTypes = ResourceBundle.getBundle("com.morty.podcast.writer.SupportFileTypes");
+
+
     private boolean m_simpleMode = false;
     private String m_fileToCreate = null;
     private String m_directoryToTraverse = null;
@@ -425,27 +428,26 @@ public class PodCastGenerator
     private String getTitle(String module, String link,String desc, Date fileDate)
     {
         String title = module;
+        String suffix = PodCastUtils.getSuffix(link);
         if(!m_simpleMode)
         {
-        if(link.endsWith(PodCastConstants.MP3_SUFFIX))
-            title += " Lecture Audio from "+PodCastConstants.DATE_PARSER.format(fileDate);
-        else if (link.endsWith(PodCastConstants.PDF_SUFFIX))
-            title += " Notes from "+PodCastConstants.DATE_PARSER.format(fileDate);
-        else if (link.endsWith(PodCastConstants.FLV_SUFFIX)|| link.endsWith(PodCastConstants.MP4_SUFFIX)
-                || link.endsWith(PodCastConstants.MPG_SUFFIX) || link.endsWith(PodCastConstants.MPG_SUFFIX_UPPER))
-            title += " Video from "+PodCastConstants.DATE_PARSER.format(fileDate);
-        else title += " Misc Document from "+PodCastConstants.DATE_PARSER.format(fileDate);
+            if ( m_supportedTypes.containsKey(suffix))
+            {
+                String fileDesc = (m_supportedTypes.getString(suffix).split("~"))[0];
+                title += fileDesc + " from "+PodCastConstants.DATE_PARSER.format(fileDate);
+            }
+            else
+                title += " Misc Document from "+PodCastConstants.DATE_PARSER.format(fileDate);
         }
         else
         {
-            if(link.endsWith(PodCastConstants.MP3_SUFFIX))
-                title += " " + desc + " - Lecture Audio";
-            else if (link.endsWith(PodCastConstants.PDF_SUFFIX))
-                title += " " + desc + " - Lecture Notes";
-            else if (link.endsWith(PodCastConstants.FLV_SUFFIX)|| link.endsWith(PodCastConstants.MP4_SUFFIX)
-                    || link.endsWith(PodCastConstants.MPG_SUFFIX) || link.endsWith(PodCastConstants.MPG_SUFFIX_UPPER))
-                title += " " + desc + " - Lecture Video";
-            else title += " " + desc + " - Misc Document";
+            if ( m_supportedTypes.containsKey(suffix))
+            {
+                String fileDesc = (m_supportedTypes.getString(suffix).split("~"))[0];
+                title +=  " " + desc + " - "+ fileDesc;
+            }
+            else
+                title += " " + desc + " - Misc Document";
         }
         return title;
 
@@ -455,16 +457,10 @@ public class PodCastGenerator
     private String getLinkType(String link)
     {
         String linkType = new String();
-        //If the name ends in .mp3, then we have a music file, otherwise, make it a pdf (module notes!)
-        //If not pdf, then plain text.
-        if(link.endsWith(PodCastConstants.MP3_SUFFIX))
-            linkType = "audio/mpeg";
-        else if (link.endsWith(PodCastConstants.PDF_SUFFIX))
-            linkType = "application/pdf";
-        else if (link.endsWith(PodCastConstants.MP4_SUFFIX) || link.endsWith(PodCastConstants.MPG_SUFFIX) || link.endsWith(PodCastConstants.MPG_SUFFIX_UPPER))
-            linkType = "video/mpeg";
-        else if(link.endsWith(PodCastConstants.FLV_SUFFIX)) // not actually sure if the podcast supports flv.. we shall see..
-            linkType = "video/x-flv";
+        // Find the mime type from the supported Files.
+        String suffix = PodCastUtils.getSuffix(link);
+        if(m_supportedTypes.containsKey(suffix))
+            linkType = m_supportedTypes.getString(suffix).split("~")[1];
         else
             linkType = "text/plain";
         

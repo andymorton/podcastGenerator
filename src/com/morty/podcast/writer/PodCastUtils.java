@@ -255,5 +255,22 @@ public class PodCastUtils
     }
     
 
+    /*
+     * Get the suffix
+     *
+     */
+    public static String getSuffix(String filename)
+    {
+        if(filename == null)
+            throw new NullPointerException("Filename cannot have extension as its null!");
+
+         int pos = filename.lastIndexOf('.');
+         if (pos > 0 && pos < filename.length() - 1)
+         {
+            return filename.substring(pos + 1);
+         }
+         return "";
+    }
+
 
 }
