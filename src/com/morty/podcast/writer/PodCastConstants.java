@@ -38,10 +38,12 @@ public class PodCastConstants
     public static final String INFO_FILE = "info.txt";
     /**
      * MP3 suffix
+     * @deprecated
      */
     public static final String MP3_SUFFIX = ".mp3";
     /**
      * PDF Suffix
+     * @deprecated
      */
     public static final String PDF_SUFFIX = ".pdf";
     /**
@@ -50,14 +52,17 @@ public class PodCastConstants
     public static final String FLV_SUFFIX = ".flv";
     /**
      * MP4 Suffix
+     * @deprecated
      */
     public static final String MP4_SUFFIX = ".mp4";
     /**
      * MPEG Layer 1 Suffix
+     * @deprecated
      */
     public static final String MPG_SUFFIX = ".mpg";
     /**
      * Upper case MPEG Layer 1 Suffix!
+     * @deprecated
      */
     public static final String MPG_SUFFIX_UPPER = ".MPG";
 
@@ -140,7 +145,7 @@ public class PodCastConstants
     public static final String PODCAST_GENERATOR_BEAN="podCastGenerator";
 
     /**
-     * Default parameter for parameters
+     * Default fields for parameters
      */
     public static final String PARSED_DATE="${date}";
     public static final String PARSED_UNIT="${unit}";

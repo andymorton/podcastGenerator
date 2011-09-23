@@ -22,13 +22,16 @@ import com.sun.syndication.feed.synd.SyndImageImpl;
 import com.sun.syndication.io.SyndFeedOutput;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.FilenameFilter;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -74,6 +77,9 @@ public class PodCastGenerator
     private String m_directoryToTraverse = null;
     private String m_urlSuffix = "";
     private String m_httpRoot = null;
+    private Set<String> m_excludedFolders = new HashSet<String>();
+
+
 
     /**
      * Set the directory that we are looking at
@@ -120,7 +126,15 @@ public class PodCastGenerator
         this.m_urlSuffix = urlSuffix;
     }
     
-    
+    /**
+     * Optional Folders
+     * @param excludedFolders
+     */
+    public void setExcludedFolders(Set foldersToExclude)
+    {
+        this.m_excludedFolders = foldersToExclude;
+    }
+
     
     
     
@@ -184,7 +198,22 @@ public class PodCastGenerator
         File directory = new File(m_directoryToTraverse);
        
         //We get a list of modules from the directory names.
-        File[] modules = directory.listFiles();
+        //File[] modules = directory.listFiles();
+
+        //Allow folder exclusion
+        File[] modules = directory.listFiles(new FilenameFilter() {
+
+            public boolean accept(File file, String string)
+            {
+                //if not in list, then accept. If in list, then reject the folder
+                if(m_excludedFolders == null || m_excludedFolders.isEmpty())
+                    return true;
+                else
+                    if(m_excludedFolders.contains(file.getName())) return false;
+                    else return true;
+            }
+        } );
+
         for (int i=0; i< modules.length; i++)
         {
             if(modules[i].isDirectory())
