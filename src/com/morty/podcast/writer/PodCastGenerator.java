@@ -69,7 +69,7 @@ public class PodCastGenerator
 {
     
     private static final Log m_logger = LogFactory.getLog(PodCastGenerator.class);
-    private static final ResourceBundle m_supportedTypes = ResourceBundle.getBundle("com.morty.podcast.writer.SupportFileTypes");
+    private static final ResourceBundle m_supportedTypes = ResourceBundle.getBundle("com.morty.podcast.writer.SupportedFileTypes");
 
 
     private boolean m_simpleMode = false;
@@ -203,13 +203,18 @@ public class PodCastGenerator
         //Allow folder exclusion
         File[] modules = directory.listFiles(new FilenameFilter() {
 
-            public boolean accept(File file, String string)
+            public boolean accept(File file, String fileToCheck)
             {
+                m_logger.debug("Checking module ["+fileToCheck+"]");
                 //if not in list, then accept. If in list, then reject the folder
                 if(m_excludedFolders == null || m_excludedFolders.isEmpty())
                     return true;
                 else
-                    if(m_excludedFolders.contains(file.getName())) return false;
+                    if(m_excludedFolders.contains(fileToCheck))
+                    {
+                        m_logger.debug("Skipping excluded folder ["+fileToCheck+"]");
+                        return false;
+                    }
                     else return true;
             }
         } );
@@ -219,6 +224,8 @@ public class PodCastGenerator
             if(modules[i].isDirectory())
             {
                 String category = modules[i].getName();
+
+                m_logger.info("Processing module ["+category+"]");
 
                 File categoryDirectory = new File(modules[i].getAbsolutePath());
                 File[] originalFiles = categoryDirectory.listFiles();
@@ -426,19 +433,24 @@ public class PodCastGenerator
                     //split the desc (ie use the unit, description and the module)
                     String[] descParts = descriptionFromName.split("\\.");
 
-                    if(descParts.length == 2)
-                        //Use [1] and [2] as we now return the date...
-                        desc = String.format(PodCastUtils.getMapValue(customValues, PodCastConstants.ITEM_DESC_TEMPLATE, PodCastConstants.DEFAULT_DESC),descParts[1],descParts[2]);
-
+                   
+                    // If its not 4, then its a malformed string - we cant handle a random format!
                     if(descParts.length == 4)
                     {
+                        m_logger.debug("Attempting custom description application");
                         Map parameterValues = new HashMap();
                         parameterValues.put(PodCastConstants.PARSED_DATE, descParts[0]);
                         parameterValues.put(PodCastConstants.PARSED_UNIT, descParts[1]);
                         parameterValues.put(PodCastConstants.PARSED_DESC, descParts[2]);
                         parameterValues.put(PodCastConstants.PARSED_MODULE, descParts[3]);
+                        m_logger.debug("Parameters set");
+
+                        //Use the %s parameters first, to get rid of them (legacy templates) and then apply the new one
+                        desc = String.format(PodCastUtils.getMapValue(customValues, PodCastConstants.ITEM_DESC_TEMPLATE, PodCastConstants.DEFAULT_DESC),descParts[1],descParts[2]);
+
 
                         desc = PodCastUtils.replaceParameters(desc, customValues);
+                        m_logger.debug("Custom description applied ["+desc+"]");
                     }
 
                 }
@@ -456,7 +468,7 @@ public class PodCastGenerator
     //Get the title of the file
     private String getTitle(String module, String link,String desc, Date fileDate)
     {
-        String title = module;
+        String title = module + " ";
         String suffix = PodCastUtils.getSuffix(link);
         if(!m_simpleMode)
         {
@@ -473,10 +485,10 @@ public class PodCastGenerator
             if ( m_supportedTypes.containsKey(suffix))
             {
                 String fileDesc = (m_supportedTypes.getString(suffix).split("~"))[0];
-                title +=  " " + desc + " - "+ fileDesc;
+                title +=  desc + " - "+ fileDesc;
             }
             else
-                title += " " + desc + " - Misc Document";
+                title +=  desc + " - Misc Document";
         }
         return title;
 

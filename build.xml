@@ -16,6 +16,13 @@
          debug="on"
          source="1.5"/>
          
+          <copy todir="${build.dir}" includeEmptyDirs="false">
+          <fileset dir="${src.dir}">
+            <exclude name="**/*.java"/>
+          </fileset>
+          </copy>          
+
+         
          <!-- jar it up -->
          <jar destfile="${dist.dir}/podcastGenerator.jar" basedir="${build.dir}"/>
           
