@@ -6,6 +6,8 @@ package com.morty.podcast.writer;
 
 import com.sun.syndication.feed.module.itunes.EntryInformation;
 import com.sun.syndication.feed.module.itunes.EntryInformationImpl;
+import com.sun.syndication.feed.module.itunes.FeedInformation;
+import com.sun.syndication.feed.module.itunes.FeedInformationImpl;
 import com.sun.syndication.feed.module.itunes.types.Duration;
 import com.sun.syndication.feed.synd.SyndCategory;
 import com.sun.syndication.feed.synd.SyndCategoryImpl;
@@ -24,6 +26,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.Writer;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -342,9 +345,14 @@ public class PodCastGenerator
             img.setLink(feed.getLink());
             img.setTitle(PodCastUtils.getMapValue(defaultFeedValues,PodCastConstants.FEED_IMAGE_TITLE, PodCastConstants.DEFAULT_IMAGE_TITLE));
             img.setUrl(PodCastUtils.generateHttpLink(m_httpRoot,PodCastUtils.getMapValue(defaultFeedValues,PodCastConstants.FEED_IMAGE_NAME, PodCastConstants.DEFAULT_IMAGE_NAME), m_urlSuffix));
-            
             feed.setImage(img);
-            
+
+            //Generate the itunes image!
+            FeedInformation itunesFeed = new FeedInformationImpl();
+            itunesFeed.setImage(new URL(img.getUrl()));
+            itunesFeed.setSummary(feed.getDescription());
+            feed.getModules().add(itunesFeed);
+
             feed.setEntries(podcastFiles);
             
 
