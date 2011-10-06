@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -347,6 +348,17 @@ public class PodCastGenerator
             img.setUrl(PodCastUtils.generateHttpLink(m_httpRoot,PodCastUtils.getMapValue(defaultFeedValues,PodCastConstants.FEED_IMAGE_NAME, PodCastConstants.DEFAULT_IMAGE_NAME), m_urlSuffix));
             feed.setImage(img);
 
+            //Set image on all episodes.
+            FeedInformation episodeFeed = new FeedInformationImpl();
+            episodeFeed.setImage(new URL(img.getUrl()));
+
+            Iterator it = podcastFiles.iterator();
+            while(it.hasNext())
+            {
+                SyndEntry podcastEntry = (SyndEntry) it.next();
+                podcastEntry.getModules().add(episodeFeed);
+            }
+            
             //Generate the itunes image!
             FeedInformation itunesFeed = new FeedInformationImpl();
             itunesFeed.setImage(new URL(img.getUrl()));
@@ -508,7 +520,7 @@ public class PodCastGenerator
         String linkType = new String();
         // Find the mime type from the supported Files.
         String suffix = PodCastUtils.getSuffix(link);
-        if(m_supportedTypes.containsKey(suffix))
+        if(m_supportedTypes.containsKey(suffix.toLowerCase()))
             linkType = m_supportedTypes.getString(suffix).split("~")[1];
         else
             linkType = "text/plain";
@@ -537,6 +549,7 @@ public class PodCastGenerator
 
             //Set the right link type
             description.setType(getLinkType(mp3link));
+
 
             //Setting description
             m_logger.info("Setting description as ["+fileDescription+"]");

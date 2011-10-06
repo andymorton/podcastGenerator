@@ -107,7 +107,7 @@ public class PodCastUtils
     {
         try
         {
-            if(file.getName().endsWith(PodCastConstants.MP3_SUFFIX))
+            if(file.getName().toLowerCase().endsWith(PodCastConstants.MP3_SUFFIX))
                 return getDurationWithMp3Spi(file);
             else return PodCastConstants.DEFAULT_DURATION;
         }
