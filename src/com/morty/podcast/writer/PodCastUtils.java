@@ -233,10 +233,7 @@ public class PodCastUtils
 
     /*
      * Allow for parameters in Template.
-     * ${date}
-     * ${unit}
-     * ${description}
-     * ${module}
+     * 
      */
     public static String replaceParameters(String original, Map<String,String> values)
     {
@@ -246,9 +243,13 @@ public class PodCastUtils
         while(it.hasNext())
         {
             String key= (String) it.next();
+            m_logger.info("Looking to replace ["+key+"]");
             if(StringUtils.contains(returnValue, key))
             {
-                StringUtils.replace(returnValue, key, values.get(key));
+                m_logger.info("Replacing ["+key+"] with value ["+values.get(key)+"]");
+                m_logger.info("Pre-Value is  ["+returnValue+"]");
+                returnValue = StringUtils.replace(returnValue, key, values.get(key));
+                m_logger.info("Post-Value is  ["+returnValue+"]");
             }
         }
         return returnValue;

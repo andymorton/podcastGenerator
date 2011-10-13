@@ -14,6 +14,7 @@ import javax.annotation.PostConstruct;
  */
 public class PodCastConstants
 {
+
     
     @PostConstruct
     private void init()
@@ -152,6 +153,16 @@ public class PodCastConstants
     public static final String PARSED_DESC="${description}";
     public static final String PARSED_MODULE="${module}";
 
+
+    /**
+     * Filename for supported File formats
+     */
+    public static final String SUPPORTED_FILE_FORMATS="supported-files.xml";
     
+    /**
+     * Format listing in the xml file.
+     */
+    public static final String SUPPORTED_FILE_FORMATS_LIST="supportedFormats";
+
     
 }

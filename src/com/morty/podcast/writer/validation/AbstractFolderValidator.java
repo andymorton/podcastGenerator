@@ -6,6 +6,8 @@ package com.morty.podcast.writer.validation;
 
 import java.io.File;
 import java.util.Set;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * This allows for the folder to be validated in terms
@@ -23,8 +25,10 @@ import java.util.Set;
 public abstract class AbstractFolderValidator {
 
     //We need to look at the folder, and include any exclusion sets
-    private File m_folderToProcess;
-    private Set m_excludedFolders;
+    protected static final Log m_logger = LogFactory.getLog(AbstractFolderValidator.class);
+    protected File m_folderToProcess;
+    protected Set m_excludedFolders;
+    protected boolean m_failOnError = false;
 
     public void setFolderToProcess(File folder)
     {
@@ -34,6 +38,11 @@ public abstract class AbstractFolderValidator {
     public void setExcludedFolders(Set exc)
     {
         m_excludedFolders = exc;
+    }
+
+    public void setFailOnError(boolean fail)
+    {
+        m_failOnError = fail;
     }
 
     public abstract boolean process() throws Exception;

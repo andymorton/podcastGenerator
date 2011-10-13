@@ -6,6 +6,14 @@
     <description>Podcast from testpack</description>
     <copyright>Copyright Testpack</copyright>
     <dc:rights>Copyright Testpack</dc:rights>
+    <itunes:owner>
+      <itunes:email />
+      <itunes:name />
+    </itunes:owner>
+    <itunes:image href="http://www.morty.com/image.jpg?dl=1" />
+    <itunes:explicit>no</itunes:explicit>
+    <itunes:keywords />
+    <itunes:summary>Podcast from testpack</itunes:summary>
     <image>
       <title>PodcastImage</title>
       <url>http://www.morty.com/image.jpg?dl=1</url>
@@ -24,6 +32,13 @@
       <itunes:explicit>no</itunes:explicit>
       <itunes:keywords>module1</itunes:keywords>
       <itunes:summary>Module1 (Unit1) - Introduction</itunes:summary>
+      <itunes:owner>
+        <itunes:email />
+        <itunes:name />
+      </itunes:owner>
+      <itunes:image href="http://www.morty.com/image.jpg?dl=1" />
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:keywords />
     </item>
     <item>
       <title>module1 Notes from 20110811</title>
@@ -37,6 +52,13 @@
       <itunes:explicit>no</itunes:explicit>
       <itunes:keywords>module1</itunes:keywords>
       <itunes:summary>Module1 (Unit1) - Introduction</itunes:summary>
+      <itunes:owner>
+        <itunes:email />
+        <itunes:name />
+      </itunes:owner>
+      <itunes:image href="http://www.morty.com/image.jpg?dl=1" />
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:keywords />
     </item>
     <item>
       <title>module2 Lecture Audio from 20110811</title>
@@ -50,6 +72,13 @@
       <itunes:explicit>no</itunes:explicit>
       <itunes:keywords>module2</itunes:keywords>
       <itunes:summary>Module2 (Unit1) - Introduction</itunes:summary>
+      <itunes:owner>
+        <itunes:email />
+        <itunes:name />
+      </itunes:owner>
+      <itunes:image href="http://www.morty.com/image.jpg?dl=1" />
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:keywords />
     </item>
     <item>
       <title>module2 Notes from 20110811</title>
@@ -63,6 +92,13 @@
       <itunes:explicit>no</itunes:explicit>
       <itunes:keywords>module2</itunes:keywords>
       <itunes:summary>Module2 (Unit1) - Introduction</itunes:summary>
+      <itunes:owner>
+        <itunes:email />
+        <itunes:name />
+      </itunes:owner>
+      <itunes:image href="http://www.morty.com/image.jpg?dl=1" />
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:keywords />
     </item>
     <item>
       <title>module3 Notes from 20110811</title>
@@ -76,6 +112,13 @@
       <itunes:explicit>no</itunes:explicit>
       <itunes:keywords>module3</itunes:keywords>
       <itunes:summary>Module3 (Unit1) - Introduction</itunes:summary>
+      <itunes:owner>
+        <itunes:email />
+        <itunes:name />
+      </itunes:owner>
+      <itunes:image href="http://www.morty.com/image.jpg?dl=1" />
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:keywords />
     </item>
     <item>
       <title>module4 Notes from 20110811</title>
@@ -89,6 +132,13 @@
       <itunes:explicit>no</itunes:explicit>
       <itunes:keywords>module4</itunes:keywords>
       <itunes:summary>Module4 (Unit1) - Introduction</itunes:summary>
+      <itunes:owner>
+        <itunes:email />
+        <itunes:name />
+      </itunes:owner>
+      <itunes:image href="http://www.morty.com/image.jpg?dl=1" />
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:keywords />
     </item>
   </channel>
 </rss>

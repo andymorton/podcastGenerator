@@ -4,6 +4,7 @@
 
 package com.morty.podcast.writer;
 
+import com.morty.podcast.writer.file.PodCastFileNameFormatter;
 import com.sun.syndication.feed.module.itunes.EntryInformation;
 import com.sun.syndication.feed.module.itunes.EntryInformationImpl;
 import com.sun.syndication.feed.module.itunes.FeedInformation;
@@ -62,6 +63,12 @@ import org.apache.commons.logging.LogFactory;
  * The filename without the suffix will be treated as the description
  *
  *
+ * TODO: Custom file titles/desc
+ *       Custom naming convention
+ *       Add validation
+ *       Allow mapping of module name to module category.
+ *
+ *
  * Modified 15/02/2011 to use the filename date of YYYYMMDD
  * Modified 25/07/2011 for major refactor and handle UTF8 filenames.
  * Modified September 2011 for new features.
@@ -82,7 +89,7 @@ public class PodCastGenerator
     private String m_urlSuffix = "";
     private String m_httpRoot = null;
     private Set<String> m_excludedFolders = new HashSet<String>();
-
+    private PodCastFileNameFormatter fileResolver = new PodCastFileNameFormatter();
 
 
     /**
@@ -242,6 +249,8 @@ public class PodCastGenerator
                     //That way all files should exist, even if they have weird characters and every getName will
                     //also contain the right characters!
                     podcastFiles[counter] = new PodCastFile(PodCastUtils.convertToUTF8(originalFiles[counter].getAbsolutePath()));
+                    fileResolver.formatFile(podcastFiles[counter]);
+
                 }
                 
                 //Overriding values for this module.
@@ -249,7 +258,9 @@ public class PodCastGenerator
                 
                 for (int p=0; p<podcastFiles.length;p++)
                 { 
-                    if(podcastFiles[p].getName().equalsIgnoreCase(PodCastConstants.INFO_FILE) || podcastFiles[p].getName().startsWith("."))
+                    if(podcastFiles[p].getName().equalsIgnoreCase(PodCastConstants.INFO_FILE)
+                            || podcastFiles[p].getName().startsWith(".") ||
+                            !podcastFiles[p].isValid())
                         m_logger.warn("Ignoring hidden or info file ["+podcastFiles[p].getName()+"]");
                     else
                         returnList.add(processFile(podcastFiles[p],category, customValues));
@@ -489,7 +500,7 @@ public class PodCastGenerator
     private String getTitle(String module, String link,String desc, Date fileDate)
     {
         String title = module + " ";
-        String suffix = PodCastUtils.getSuffix(link);
+        String suffix = PodCastUtils.getSuffix(link).toLowerCase();
         if(!m_simpleMode)
         {
             if ( m_supportedTypes.containsKey(suffix))
@@ -519,8 +530,8 @@ public class PodCastGenerator
     {
         String linkType = new String();
         // Find the mime type from the supported Files.
-        String suffix = PodCastUtils.getSuffix(link);
-        if(m_supportedTypes.containsKey(suffix.toLowerCase()))
+        String suffix = PodCastUtils.getSuffix(link).toLowerCase();
+        if(m_supportedTypes.containsKey(suffix))
             linkType = m_supportedTypes.getString(suffix).split("~")[1];
         else
             linkType = "text/plain";
