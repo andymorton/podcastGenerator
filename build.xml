@@ -19,6 +19,7 @@
           <copy todir="${build.dir}" includeEmptyDirs="false">
           <fileset dir="${src.dir}">
             <exclude name="**/*.java"/>
+            <exclude name="**/supported-files.xml"/>
           </fileset>
           </copy>          
 

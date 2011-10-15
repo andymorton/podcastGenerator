@@ -27,4 +27,29 @@ public class PodCastFileProperties
      */
     public static final String FILE_VALID="FILE_VALID";
 
+
+    /**
+     * Property key for date
+     */
+    public static final String FILE_DATE="${date}";
+
+    /**
+     * Property key for unit
+     */
+    public static final String FILE_UNIT="${unit}";
+
+
+    /**
+     * Property key for description
+     */
+    public static final String FILE_DESC="${description}";
+
+    
+    /**
+     * Property key for module
+     */
+    public static final String FILE_MODULE="${module}";
+
+
+
 }

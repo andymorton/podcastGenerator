@@ -145,15 +145,7 @@ public class PodCastConstants
      */
     public static final String PODCAST_GENERATOR_BEAN="podCastGenerator";
 
-    /**
-     * Default fields for parameters
-     */
-    public static final String PARSED_DATE="${date}";
-    public static final String PARSED_UNIT="${unit}";
-    public static final String PARSED_DESC="${description}";
-    public static final String PARSED_MODULE="${module}";
-
-
+    
     /**
      * Filename for supported File formats
      */

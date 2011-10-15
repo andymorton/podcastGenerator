@@ -35,15 +35,18 @@ public class PodCastFileNameFormatter
         //Which will only contain the default format.
         try
         {
-            m_logger.info("Setting up classpaths");
+            m_logger.info("Setting up resolvers");
             //Look up the xml file in the classpath
             final ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(PodCastConstants.SUPPORTED_FILE_FORMATS);
             listOfFormats = (List) ctx.getBean(PodCastConstants.SUPPORTED_FILE_FORMATS_LIST);
-            m_logger.info("Finished Setting up classpaths");
+
+            //Log the list of resovlers.
+            m_logger.info("Finished Setting up resolvers ["+listOfFormats+"]");
+
         }
         catch(Exception e)
         {
-            m_logger.info("Default Format being used");
+            m_logger.info("Default Format being used ["+e.getMessage()+"]");
            List defaultList = new ArrayList();
            defaultList.add(new DefaultFileFormat());
            listOfFormats = defaultList;
@@ -58,6 +61,7 @@ public class PodCastFileNameFormatter
     public void formatFile(PodCastFile file)
     {
         Map props = getFileProperties(file.getName());
+        PodCastUtils.printProperties(props);
         file.setProperties(props);
     }
 
@@ -77,12 +81,18 @@ public class PodCastFileNameFormatter
                 m_logger.info("Matched using ["+format.getFormatName()+"]");
                 return splitFilename(filename, format);
             }
-            else m_logger.debug("File does not match using ["+format.getFormatName()+"]");
+            else 
+                m_logger.debug("File does not match using ["+format.getFormatName()+"]");
+
 
         }
 
+        m_logger.warn("File does not match any resolver. Returning invalid file.");
         //if it doesnt match a format, then just return an empty map
-        return new HashMap();
+        Map invalidFile = new HashMap();
+        invalidFile.put(PodCastFileProperties.FILE_VALID, Boolean.FALSE);
+        m_logger.warn("Invalid file set");
+        return invalidFile;
 
     }
 
@@ -110,7 +120,7 @@ public class PodCastFileNameFormatter
             while(it.hasNext())
             {
                 PodCastFileNameField fnf = (PodCastFileNameField) it.next();
-                m_logger.info("Setting key["+fnf.getMappedName()+"] value["+parts[fnf.getPosition()]+"]");
+                m_logger.info("splitFilename: Setting key["+fnf.getMappedName()+"] value["+parts[fnf.getPosition()]+"]");
                 returnValues.put(fnf.getMappedName(), parts[fnf.getPosition()]);
             }
 
@@ -147,7 +157,10 @@ public class PodCastFileNameFormatter
         //setting the mime type and message
         String messageAndMime;
         if(format.getFormatMessages().containsKey( returnValues.get(PodCastFileProperties.FILE_SUFFIX) ) )
+        {
+            m_logger.info("File Suffix ["+returnValues.get(PodCastFileProperties.FILE_SUFFIX)+"] found");
             messageAndMime = (String)format.getFormatMessages().get(returnValues.get(PodCastFileProperties.FILE_SUFFIX));
+        }
         else
         {
             //This is an unsupported file type, so we ignore

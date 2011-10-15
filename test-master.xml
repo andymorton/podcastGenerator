@@ -62,11 +62,11 @@
     </item>
     <item>
       <title>module2 Lecture Audio from 20110811</title>
-      <link>http://www.morty.com/module2/20110811.Unit1.Introduction.module1.mp3?dl=1</link>
+      <link>http://www.morty.com/module2/20110811.Unit1.Introduction.module2.mp3?dl=1</link>
       <description>Module2 (Unit1) - Introduction</description>
-      <enclosure url="http://www.morty.com/module2/20110811.Unit1.Introduction.module1.mp3?dl=1" type="audio/mpeg" />
+      <enclosure url="http://www.morty.com/module2/20110811.Unit1.Introduction.module2.mp3?dl=1" type="audio/mpeg" />
       <category>module2</category>
-      <guid>http://www.morty.com/module2/20110811.Unit1.Introduction.module1.mp3?dl=1</guid>
+      <guid>http://www.morty.com/module2/20110811.Unit1.Introduction.module2.mp3?dl=1</guid>
       <itunes:duration>00:00:02</itunes:duration>
       <itunes:author>Module2 Lecturer</itunes:author>
       <itunes:explicit>no</itunes:explicit>

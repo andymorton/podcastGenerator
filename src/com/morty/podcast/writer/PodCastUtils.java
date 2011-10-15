@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 import javax.sound.sampled.AudioFileFormat;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -243,15 +244,16 @@ public class PodCastUtils
         while(it.hasNext())
         {
             String key= (String) it.next();
-            m_logger.info("Looking to replace ["+key+"]");
             if(StringUtils.contains(returnValue, key))
             {
-                m_logger.info("Replacing ["+key+"] with value ["+values.get(key)+"]");
-                m_logger.info("Pre-Value is  ["+returnValue+"]");
+                Object val = values.get(key);
+                if(!(val instanceof String))
+                    val = ""+val;
+                m_logger.debug("Replacing key ["+key+"] with ["+values.get(key)+"]");
                 returnValue = StringUtils.replace(returnValue, key, values.get(key));
-                m_logger.info("Post-Value is  ["+returnValue+"]");
             }
         }
+        m_logger.debug("After replacement, we have value of ["+returnValue+"]");
         return returnValue;
     }
     
@@ -271,6 +273,23 @@ public class PodCastUtils
             return filename.substring(pos + 1);
          }
          return "";
+    }
+
+
+    public static void printProperties(Map props)
+    {
+        if(m_logger.isDebugEnabled())
+        {
+            m_logger.debug("All props returned as::");
+            Set keys = props.keySet();
+            Iterator it = keys.iterator();
+            while(it.hasNext())
+            {
+                String key = (String) it.next();
+                m_logger.debug("Key ["+key+"] has value ["+props.get(key).toString()+"]");
+            }
+            m_logger.debug("All props Finished");
+        }
     }
 
 

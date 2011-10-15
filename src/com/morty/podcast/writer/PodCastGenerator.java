@@ -80,10 +80,12 @@ public class PodCastGenerator
 {
     
     private static final Log m_logger = LogFactory.getLog(PodCastGenerator.class);
-    private static final ResourceBundle m_supportedTypes = ResourceBundle.getBundle("com.morty.podcast.writer.SupportedFileTypes");
 
-
+    //Simple mode is no longer valid - if you want to run in simple mode, use
+    //an appropriate supported file structure.
+    @Deprecated
     private boolean m_simpleMode = false;
+
     private String m_fileToCreate = null;
     private String m_directoryToTraverse = null;
     private String m_urlSuffix = "";
@@ -241,6 +243,8 @@ public class PodCastGenerator
                 File categoryDirectory = new File(modules[i].getAbsolutePath());
                 File[] originalFiles = categoryDirectory.listFiles();
                 PodCastFile[] podcastFiles = new PodCastFile[originalFiles.length];
+                Map parentDirectoryProperties = processInfoFile(categoryDirectory);
+
 
                 //Convert all the files to PodCastFiles in the array.
                 for(int counter=0;counter<podcastFiles.length;counter++)
@@ -250,20 +254,17 @@ public class PodCastGenerator
                     //also contain the right characters!
                     podcastFiles[counter] = new PodCastFile(PodCastUtils.convertToUTF8(originalFiles[counter].getAbsolutePath()));
                     fileResolver.formatFile(podcastFiles[counter]);
+                    podcastFiles[counter].setParentProperties(parentDirectoryProperties);
 
                 }
                 
-                //Overriding values for this module.
-                HashMap customValues = processInfoFile(categoryDirectory);
-                
+               
                 for (int p=0; p<podcastFiles.length;p++)
                 { 
-                    if(podcastFiles[p].getName().equalsIgnoreCase(PodCastConstants.INFO_FILE)
-                            || podcastFiles[p].getName().startsWith(".") ||
-                            !podcastFiles[p].isValid())
-                        m_logger.warn("Ignoring hidden or info file ["+podcastFiles[p].getName()+"]");
+                    if(!podcastFiles[p].isValid())
+                        m_logger.warn("Ignoring hidden/unresolved or info file ["+podcastFiles[p].getName()+"]");
                     else
-                        returnList.add(processFile(podcastFiles[p],category, customValues));
+                        returnList.add(processFile(podcastFiles[p],category, parentDirectoryProperties));
                 }
 
             }
@@ -296,27 +297,10 @@ public class PodCastGenerator
     private SyndEntry processFile(PodCastFile podCastFile,String category, Map customValues) throws Exception
     {
         m_logger.info("Processing file ["+podCastFile.getName()+"]");
-        Date fileDate = null;
-        String desc = null;
+        Date fileDate = podCastFile.getFileDate();
+        String desc = podCastFile.getDescription();
         
-        if(m_simpleMode)
-        {
-            //Use the system date.
-            fileDate= new Date(System.currentTimeMillis());
-
-            String filename = podCastFile.getName();
-            String[] parts = filename.split("\\.");
-
-            //We have just got the filename without the extension
-            desc = parts[0];
-        }
-        else
-        {
-            fileDate = getfileDate(podCastFile);
-            desc = getDescription(podCastFile,customValues);
-
-        }
-        //Add the entry of the mp3 file.
+        //Add the entry of the file
         return generateEntry(  
                         m_httpRoot +"/"+category+"/"+ podCastFile.getName(),
                         fileDate,
@@ -398,152 +382,12 @@ public class PodCastGenerator
     }
 
     
-    //Get the filedate from the filename, or otherwise...
-    private Date getfileDate(PodCastFile podCastFile)
-    {
-        //Look at the first 8 characters. If valid date, then use it, otherwise, the last
-        //created date
-        String potentialDate = podCastFile.getName().substring(0,8);
-        m_logger.info("Parsing filename date of  ["+potentialDate+"]");
-        Date fileDate= null;
-        try
-        {
-            //try parsing YYYYMMDD
-            fileDate = PodCastConstants.DATE_PARSER.parse(potentialDate);
-            m_logger.info("Parsed Date using new parser [yyyymmdd]");
-        }
-        catch(Exception de)
-        {
-
-            try
-            {
-                //If that doesnt work, then try DDMMYYYY
-                fileDate = PodCastConstants.DATE_PARSER_OLD.parse(potentialDate);
-                m_logger.info("Parsed Date using old parser [ddmmyyyy]");
-            }
-            catch(Exception e)
-            {
-                m_logger.info("Parsed Date from last modified date");
-                fileDate = new Date(podCastFile.lastModified());
-            }
-        }
-        return fileDate;
-    }
     
-    
-    //Get the description from the template.
-    private String getDescription(PodCastFile podCastFile,Map customValues)
-    {
-        //Get the description for the file.
-        //Is there a custom description - use if there is.
-        //Is there a template. Use if there is and you can parse the filename.
-        //Otherwise just use the default
-        String desc = PodCastUtils.getMapValue(customValues, podCastFile.getName(), PodCastConstants.DEFAULT_DESC);
-        if(desc.equals(PodCastConstants.DEFAULT_DESC)) //look for template (in case thats configured)
-        {
-            String descriptionFromName = PodCastUtils.getFileName(podCastFile.getName());
-            m_logger.debug("Description from name is ["+descriptionFromName+"]");
-            if(PodCastUtils.getMapValue(customValues, PodCastConstants.ITEM_DESC_TEMPLATE, "").equals(""))
-            {
-                m_logger.debug("No template in custom values");
-                //we dont have a template setup - so use the default.
-                desc = PodCastConstants.DEFAULT_DESC;
-            }
-            else
-            {
-                m_logger.debug("Using template for description");
-                // lets get the description and parse into %1,and %2
-                if(descriptionFromName.indexOf(".") == -1) //no split in description
-                {
-                    m_logger.debug("No splittable values from name ["+descriptionFromName+"]");
-                    desc = String.format(PodCastUtils.getMapValue(customValues, PodCastConstants.ITEM_DESC_TEMPLATE, PodCastConstants.DEFAULT_DESC),descriptionFromName,"UNKNOWN");
-                }
-                else
-                {
-                    m_logger.debug("Splitting description from filename");
-                    //split the desc (ie use the unit, description and the module)
-                    String[] descParts = descriptionFromName.split("\\.");
-
-                   
-                    // If its not 4, then its a malformed string - we cant handle a random format!
-                    if(descParts.length == 4)
-                    {
-                        m_logger.debug("Attempting custom description application");
-                        Map parameterValues = new HashMap();
-                        parameterValues.put(PodCastConstants.PARSED_DATE, descParts[0]);
-                        parameterValues.put(PodCastConstants.PARSED_UNIT, descParts[1]);
-                        parameterValues.put(PodCastConstants.PARSED_DESC, descParts[2]);
-                        parameterValues.put(PodCastConstants.PARSED_MODULE, descParts[3]);
-                        m_logger.debug("Parameters set");
-
-                        //Use the %s parameters first, to get rid of them (legacy templates) and then apply the new one
-                        desc = String.format(PodCastUtils.getMapValue(customValues, PodCastConstants.ITEM_DESC_TEMPLATE, PodCastConstants.DEFAULT_DESC),descParts[1],descParts[2]);
-
-
-                        desc = PodCastUtils.replaceParameters(desc, customValues);
-                        m_logger.debug("Custom description applied ["+desc+"]");
-                    }
-
-                }
-
-            }
-
-        }
-        else m_logger.debug("Has custom value for file");
-        m_logger.info("Description is ["+desc+"]");
-        
-        return desc;
-    }
-    
-    
-    //Get the title of the file
-    private String getTitle(String module, String link,String desc, Date fileDate)
-    {
-        String title = module + " ";
-        String suffix = PodCastUtils.getSuffix(link).toLowerCase();
-        if(!m_simpleMode)
-        {
-            if ( m_supportedTypes.containsKey(suffix))
-            {
-                String fileDesc = (m_supportedTypes.getString(suffix).split("~"))[0];
-                title += fileDesc + " from "+PodCastConstants.DATE_PARSER.format(fileDate);
-            }
-            else
-                title += " Misc Document from "+PodCastConstants.DATE_PARSER.format(fileDate);
-        }
-        else
-        {
-            if ( m_supportedTypes.containsKey(suffix))
-            {
-                String fileDesc = (m_supportedTypes.getString(suffix).split("~"))[0];
-                title +=  desc + " - "+ fileDesc;
-            }
-            else
-                title +=  desc + " - Misc Document";
-        }
-        return title;
-
-        
-    }
-    
-    private String getLinkType(String link)
-    {
-        String linkType = new String();
-        // Find the mime type from the supported Files.
-        String suffix = PodCastUtils.getSuffix(link).toLowerCase();
-        if(m_supportedTypes.containsKey(suffix))
-            linkType = m_supportedTypes.getString(suffix).split("~")[1];
-        else
-            linkType = "text/plain";
-        
-        return linkType;
-
-    }
     
 
     private SyndEntry generateEntry(String mp3link, Date fileDate, 
             String fileDescription, String fileCategory, String author, 
-            File originalFile,String httpSuffix) throws PodCastCreationException
+            PodCastFile originalFile,String httpSuffix) throws PodCastCreationException
     {
         SyndEntry podcastEntry;
         SyndContent description = new SyndContentImpl();
@@ -554,12 +398,12 @@ public class PodCastGenerator
             podcastEntry = new SyndEntryImpl();
             podcastEntry.setAuthor(author);
             
-            podcastEntry.setTitle(getTitle(fileCategory,mp3link,fileDescription, fileDate));
+            podcastEntry.setTitle(originalFile.getTitle());
             podcastEntry.setLink(mp3link+httpSuffix);
             podcastEntry.setPublishedDate(fileDate);
 
             //Set the right link type
-            description.setType(getLinkType(mp3link));
+            description.setType(originalFile.getMimeType());
 
 
             //Setting description

@@ -15,5 +15,63 @@
    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
 
+ <util:list id="supportedFormats" list-class="java.util.ArrayList">
+        <ref bean="DefaultCustomFormat"/>
+ </util:list>
+
+<bean  id="DefaultCustomFormat" class="com.morty.podcast.writer.file.PodCastFileNameFormat">
+    <property name="delimited" value="true" />
+    <property name="splitCharacter" value="\." />
+    <property name="formatName" value="Default Custom Format" />
+    <property name="formatPattern" value="\d{8}\.\w+\.\w+\.\w+\.\w+" />
+    <property name="fields" >
+        <list>
+            <ref bean="field0" />
+            <ref bean="field1" />
+            <ref bean="field2" />
+            <ref bean="field3" />
+            <ref bean="field4" />
+        </list>
+    </property>
+    <property name="formatMessages">
+        <map>
+            <entry key="mp3" value="${module} Lecture Audio from ${date}~audio/mpeg" />
+            <entry key="m4a" value="${module} Lecture Audio ffrom ${date}~audio/mp4a-latm" />
+            <entry key="mp4" value="${module} Lecture Video from ${date}~video/mpeg" />
+            <entry key="pdf" value="${module} Notes from ${date}~application/pdf" />
+            <entry key="flv" value="${module} Lecture Video from ${date}~video/x-flv" />
+            <entry key="mpg" value="${module} Lecture Video from ${date}~video/mpeg" />
+        </map>
+    </property>
+
+</bean>
+
+
+<!-- simple delimited fields -->
+<bean id="field0" class="com.morty.podcast.writer.file.PodCastFileNameField" >
+    <property name="position" value="0" />
+    <property name="fieldName" value="date" />
+    <property name="mappedName" value="${date}" />
+</bean>
+<bean id="field1" class="com.morty.podcast.writer.file.PodCastFileNameField" >
+    <property name="position" value="1" />
+    <property name="fieldName" value="unit" />
+    <property name="mappedName" value="${unit}" />
+</bean>
+<bean id="field2" class="com.morty.podcast.writer.file.PodCastFileNameField" >
+    <property name="position" value="2" />
+    <property name="fieldName" value="desc" />
+    <property name="mappedName" value="${description}" />
+</bean>
+<bean id="field3" class="com.morty.podcast.writer.file.PodCastFileNameField" >
+    <property name="position" value="3" />
+    <property name="fieldName" value="module" />
+    <property name="mappedName" value="${module}" />
+</bean>
+<bean id="field4" class="com.morty.podcast.writer.file.PodCastFileNameField" >
+    <property name="position" value="4" />
+    <property name="fieldName" value="suffix" />
+    <property name="mappedName" value="${suffix}" />
+</bean>
 
 </beans>

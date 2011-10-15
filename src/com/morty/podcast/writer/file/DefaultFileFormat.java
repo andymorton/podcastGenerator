@@ -34,7 +34,7 @@ public class DefaultFileFormat extends PodCastFileNameFormat
         PodCastFileNameField desc = new PodCastFileNameField();
         desc.setPosition(2);
         desc.setFieldName("desc");
-        desc.setMappedName("${desc}");
+        desc.setMappedName("${description}");
         
         PodCastFileNameField module = new PodCastFileNameField();
         module.setPosition(3);
@@ -58,12 +58,12 @@ public class DefaultFileFormat extends PodCastFileNameFormat
 
         //Set the filetypes.
         Map fileMessages = new HashMap();
-        String mp3 = "Lecture Audio for ${unit}~audio/mpeg";
-        String m4a = "Lecture Audio for ${unit}~audio/mp4a-latm";
-        String mp4 = "Lecture Video for ${unit}~video/mpeg";
-        String pdf = "Notes for ${unit}~application/pdf";
-        String flv = "Lecture Video for ${unit}~video/x-flv";
-        String mpg = "Lecture Video for ${unit}~video/mpeg";
+        String mp3 = "${module} Lecture Audio from ${date}~audio/mpeg";
+        String m4a = "${module} Lecture Audio ffrom ${date}~audio/mp4a-latm";
+        String mp4 = "${module} Lecture Video from ${date}~video/mpeg";
+        String pdf = "${module} Notes from ${date}~application/pdf";
+        String flv = "${module} Lecture Video from ${date}~video/x-flv";
+        String mpg = "${module} Lecture Video from ${date}~video/mpeg";
 
         fileMessages.put("mp3", mp3);
         fileMessages.put("m4a", m4a);
