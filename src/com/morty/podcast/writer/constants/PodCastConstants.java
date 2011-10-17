@@ -2,7 +2,7 @@
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
-package com.morty.podcast.writer;
+package com.morty.podcast.writer.constants;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

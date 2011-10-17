@@ -2,8 +2,10 @@
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
-package com.morty.podcast.writer;
+package com.morty.podcast.writer.file;
 
+import com.morty.podcast.writer.constants.PodCastConstants;
+import com.morty.podcast.writer.PodCastUtils;
 import com.morty.podcast.writer.file.PodCastFileProperties;
 import java.io.File;
 import java.net.URI;

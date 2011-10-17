@@ -4,6 +4,7 @@
 
 package com.morty.podcast.writer;
 
+import com.morty.podcast.writer.constants.PodCastConstants;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

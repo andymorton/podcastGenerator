@@ -4,8 +4,7 @@
 
 package com.morty.podcast.writer.file;
 
-import com.morty.podcast.writer.PodCastConstants;
-import com.morty.podcast.writer.PodCastFile;
+import com.morty.podcast.writer.constants.PodCastConstants;
 import com.morty.podcast.writer.PodCastUtils;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,6 +51,31 @@ public class PodCastFileNameResolver
            listOfFormats = defaultList;
         }
 
+
+    }
+
+
+    //Check if it actually matches...
+    public boolean fileIsResolvable(String filename)
+    {
+        Iterator formats = listOfFormats.iterator();
+        while(formats.hasNext())
+        {
+            PodCastFileNameFormat format = (PodCastFileNameFormat) formats.next();
+            m_logger.info("Resolving file ["+filename+"] using format ["+format.getFormatName()+"]");
+            if(format.matches(filename))
+            {
+                //Get the map, and return it.
+                m_logger.info("Matched using ["+format.getFormatName()+"]");
+                return true;
+            }
+            else
+                m_logger.debug("File does not match using ["+format.getFormatName()+"]");
+
+
+        }
+        m_logger.debug("File does not match using any resolver.");
+        return false;
 
     }
 

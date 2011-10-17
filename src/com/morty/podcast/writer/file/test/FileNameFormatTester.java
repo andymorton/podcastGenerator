@@ -4,7 +4,7 @@
 
 package com.morty.podcast.writer.file.test;
 
-import com.morty.podcast.writer.PodCastFile;
+import com.morty.podcast.writer.file.PodCastFile;
 import com.morty.podcast.writer.file.PodCastFileNameResolver;
 import java.util.Iterator;
 import java.util.Map;
