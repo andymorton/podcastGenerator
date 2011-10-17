@@ -4,7 +4,7 @@
 
 package com.morty.podcast.writer;
 
-import com.morty.podcast.writer.file.PodCastFileNameFormatter;
+import com.morty.podcast.writer.file.PodCastFileNameResolver;
 import com.sun.syndication.feed.module.itunes.EntryInformation;
 import com.sun.syndication.feed.module.itunes.EntryInformationImpl;
 import com.sun.syndication.feed.module.itunes.FeedInformation;
@@ -91,7 +91,7 @@ public class PodCastGenerator
     private String m_urlSuffix = "";
     private String m_httpRoot = null;
     private Set<String> m_excludedFolders = new HashSet<String>();
-    private PodCastFileNameFormatter fileResolver = new PodCastFileNameFormatter();
+    private PodCastFileNameResolver fileResolver = new PodCastFileNameResolver();
 
 
     /**

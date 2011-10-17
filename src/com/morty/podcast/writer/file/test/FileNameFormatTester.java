@@ -5,7 +5,7 @@
 package com.morty.podcast.writer.file.test;
 
 import com.morty.podcast.writer.PodCastFile;
-import com.morty.podcast.writer.file.PodCastFileNameFormatter;
+import com.morty.podcast.writer.file.PodCastFileNameResolver;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -21,7 +21,7 @@ public class FileNameFormatTester
     {
         System.out.println("Starting test");
 
-        PodCastFileNameFormatter fnf = new PodCastFileNameFormatter();
+        PodCastFileNameResolver fnf = new PodCastFileNameResolver();
 
         PodCastFile pcf = new PodCastFile("20111001.Unit02.Description1.Module1.mp3");
         fnf.formatFile(pcf);

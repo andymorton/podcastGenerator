@@ -23,13 +23,13 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * TODO - add system properties (like size/folder/parent)
  * @author amorton
  */
-public class PodCastFileNameFormatter
+public class PodCastFileNameResolver
 {
 
     private final Log m_logger = LogFactory.getLog(getClass());
     private static List<PodCastFileNameFormat> listOfFormats;
     
-    public PodCastFileNameFormatter()
+    public PodCastFileNameResolver()
     {
         //look for xml file. if not there, then just have list of 1
         //Which will only contain the default format.
