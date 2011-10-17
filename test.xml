@@ -48,6 +48,7 @@
 
     <path id="test.classpath">
       <pathelement path="${basedir}/dist/lib"/>
+      <pathelement path="${basedir}/dist/config"/>
       <pathelement path="${basedir}"/>
       <fileset dir="${basedir}/dist">
          <include name="lib/*.jar"/>

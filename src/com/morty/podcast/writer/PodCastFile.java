@@ -91,13 +91,16 @@ public class PodCastFile extends File
 
     public boolean hasProperty(String key)
     {
-        return m_internalProperties.containsKey(key);
+        return m_internalProperties.containsKey(key) || m_parentPropeties.containsKey(key);
     }
 
     public Object getProperty(String key)
     {
+        //Look for the props in the file, then the parent.
         if(m_internalProperties.containsKey(key))
             return m_internalProperties.get(key);
+        else if(m_parentPropeties.containsKey(key))
+            return m_parentPropeties.get(key);
         else return null;
     }
 
@@ -106,6 +109,11 @@ public class PodCastFile extends File
     public void setParentProperties(Map props)
     {
         m_parentPropeties = props;
+    }
+
+    public Map getParentProperties()
+    {
+        return m_parentPropeties;
     }
 
 

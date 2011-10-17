@@ -19,7 +19,7 @@
           <copy todir="${build.dir}" includeEmptyDirs="false">
           <fileset dir="${src.dir}">
             <exclude name="**/*.java"/>
-            <exclude name="**/supported-files.xml"/>
+            <exclude name="**/*.xml"/>
           </fileset>
           </copy>          
 
@@ -28,17 +28,27 @@
          <jar destfile="${dist.dir}/podcastGenerator.jar" basedir="${build.dir}"/>
           
          <mkdir dir="${dist.dir}/lib" />
+         <mkdir dir="${dist.dir}/config" />
          
          <!-- Copy the run files and the config files to the dist folder, and the lib jars to the dist/lib folder -->
          <copy todir="${dist.dir}/lib" includeEmptyDirs="false">
           <fileset dir="${src.dir}">
             <exclude name="**/*.java"/>
+            <exclude name="**/*.xml"/>
           </fileset>
           
           <fileset dir="lib">
             <include name="*.jar"/>
           </fileset>
          </copy>
+         
+         <!-- Copy the xml to the right folder -->
+         <copy todir="${dist.dir}/config" includeEmptyDirs="false">
+          <fileset dir="${src.dir}">
+            <include name="**/*.xml"/>
+          </fileset>
+         </copy>
+         
          
          
          <copy todir="${dist.dir}" includeEmptyDirs="false">

@@ -253,9 +253,9 @@ public class PodCastGenerator
                     //That way all files should exist, even if they have weird characters and every getName will
                     //also contain the right characters!
                     podcastFiles[counter] = new PodCastFile(PodCastUtils.convertToUTF8(originalFiles[counter].getAbsolutePath()));
-                    fileResolver.formatFile(podcastFiles[counter]);
                     podcastFiles[counter].setParentProperties(parentDirectoryProperties);
-
+                    fileResolver.formatFile(podcastFiles[counter]);
+                    
                 }
                 
                

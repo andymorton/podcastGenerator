@@ -1,2 +1,3 @@
 Author=Module1 Lecturer
 Template=Module1 (%s) - %s
+${moduleCode}=Module1Code

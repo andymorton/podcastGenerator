@@ -60,13 +60,13 @@ public class PodCastFileNameFormatter
     //Allow for file properties to be retrieved with file object
     public void formatFile(PodCastFile file)
     {
-        Map props = getFileProperties(file.getName());
+        Map props = getFileProperties(file.getName(), file.getParentProperties());
         PodCastUtils.printProperties(props);
         file.setProperties(props);
     }
 
     //Parse the filename to get properties from that.
-    private Map getFileProperties(String filename)
+    private Map getFileProperties(String filename, Map parentProps)
     {
         //Look at our list of filename formats, and find the one that matches.
         //Its a sequencial list...
@@ -79,7 +79,7 @@ public class PodCastFileNameFormatter
             {
                 //Get the map, and return it.
                 m_logger.info("Matched using ["+format.getFormatName()+"]");
-                return splitFilename(filename, format);
+                return splitFilename(filename, format,parentProps);
             }
             else 
                 m_logger.debug("File does not match using ["+format.getFormatName()+"]");
@@ -98,9 +98,11 @@ public class PodCastFileNameFormatter
 
 
     //This is where all the work is done!
-    private Map splitFilename(String filename, PodCastFileNameFormat format)
+    private Map splitFilename(String filename, PodCastFileNameFormat format, Map parentProps)
     {
         Map returnValues = new HashMap();
+        //Allow access to parent props in messages.
+        returnValues.putAll(parentProps);
 
         returnValues.put(PodCastFileProperties.FILE_VALID, Boolean.TRUE);
 
