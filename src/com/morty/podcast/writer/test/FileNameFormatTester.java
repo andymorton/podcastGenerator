@@ -2,7 +2,7 @@
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
-package com.morty.podcast.writer.file.test;
+package com.morty.podcast.writer.test;
 
 import com.morty.podcast.writer.file.PodCastFile;
 import com.morty.podcast.writer.file.PodCastFileNameResolver;
