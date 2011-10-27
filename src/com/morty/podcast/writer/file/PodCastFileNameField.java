@@ -25,6 +25,20 @@ public class PodCastFileNameField
     private int position;
     private int startpos;
     private int endpos;
+    //to allow custom values..
+    private String mappedValue;
+
+    public String getMappedValue()
+    {
+        return mappedValue;
+    }
+
+    public void setMappedValue(String mappedValue)
+    {
+        this.mappedValue = mappedValue;
+    }
+
+
 
     public int getEndpos()
     {

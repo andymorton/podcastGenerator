@@ -22,7 +22,7 @@ public class DefaultFileFormat extends PodCastFileNameFormat
         this.setDelimited(true);
         this.setSplitCharacter("\\.");
         this.setFormatName("Default Format");
-        this.setFormatPattern("\\d{8}\\.\\w+\\.\\w+\\.\\w+\\.\\w+");
+        this.setFormatPattern("\\d{8}\\.[-|\\w]+\\.[-|\\w]+\\.\\w+\\.\\w+");
         
         //create the fields.
         PodCastFileNameField date = new PodCastFileNameField();

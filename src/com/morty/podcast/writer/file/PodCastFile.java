@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * Allows for UTF8 filenames.
@@ -221,9 +222,21 @@ public class PodCastFile extends File
 
         }
         else m_logger.debug("Has custom value for file");
+
+        //Replace any '_' characters with space the original description will still have the underscores!
+        desc = StringUtils.replace(desc,"_", " ");
         m_logger.info("Description is ["+desc+"]");
         
         return desc;
+
+    }
+
+    public String getOriginalDescription()
+    {
+        if(m_internalProperties.containsKey(PodCastFileProperties.FILE_DESC))
+            return (String) this.getProperty(PodCastFileProperties.FILE_DESC);
+        else return "";
+
 
     }
 

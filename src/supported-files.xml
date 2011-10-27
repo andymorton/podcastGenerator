@@ -17,13 +17,14 @@
 
  <util:list id="supportedFormats" list-class="java.util.ArrayList">
         <ref bean="DefaultCustomFormat"/>
+        <ref bean="SingleUnitFormat"/>
  </util:list>
 
 <bean  id="DefaultCustomFormat" class="com.morty.podcast.writer.file.PodCastFileNameFormat">
     <property name="delimited" value="true" />
     <property name="splitCharacter" value="\." />
     <property name="formatName" value="Default Custom Format" />
-    <property name="formatPattern" value="\d{8}\.\w+\.\w+\.\w+\.\w+" />
+    <property name="formatPattern" value="\d{8}\.[-|\w]+\.[-|\w]+\.\w+\.\w+" />
     <property name="fields" >
         <list>
             <ref bean="field0" />
@@ -73,5 +74,54 @@
     <property name="fieldName" value="suffix" />
     <property name="mappedName" value="${suffix}" />
 </bean>
+
+
+
+
+<bean  id="SingleUnitFormat" class="com.morty.podcast.writer.file.PodCastFileNameFormat">
+    <property name="delimited" value="true" />
+    <property name="splitCharacter" value="\." />
+    <property name="formatName" value="SingleUnitFormat" />
+    <property name="formatPattern" value="[-|\w]+\.\w+" />
+    <property name="fields" >
+        <list>
+            <ref bean="single.unit" />
+            <ref bean="single.suffix" />
+            <ref bean="single.custom" />
+        </list>
+    </property>
+    <property name="formatMessages">
+        <map>
+            <!-- in this case the ${module} is coming from the parent ${module} value -->
+            <entry key="mp3" value="${module} Lecture Audio ${unit}~audio/mpeg" />
+            <entry key="m4a" value="${module} Lecture Audio from ${unit}~audio/mp4a-latm" />
+            <entry key="mp4" value="${module} Lecture Video from ${unit}~video/mpeg" />
+            <entry key="pdf" value="${module} Notes from ${unit}~application/pdf" />
+            <entry key="flv" value="${module} Lecture Video from ${unit}~video/x-flv" />
+            <entry key="mpg" value="${u${module}nit} Lecture Video from ${unit}~video/mpeg" />
+        </map>
+    </property>
+
+</bean>
+
+
+<bean id="single.unit" class="com.morty.podcast.writer.file.PodCastFileNameField" >
+    <property name="position" value="0" />
+    <property name="fieldName" value="unit" />
+    <property name="mappedName" value="${unit}" />
+</bean>
+<bean id="single.suffix" class="com.morty.podcast.writer.file.PodCastFileNameField" >
+    <property name="position" value="1" />
+    <property name="fieldName" value="suffix" />
+    <property name="mappedName" value="${suffix}" />
+</bean>
+<bean id="single.custom" class="com.morty.podcast.writer.file.PodCastFileNameField" >
+    <property name="position" value="99" />
+    <property name="fieldName" value="desc" />
+    <property name="mappedName" value="${description}" />
+    <property name="mappedValue" value="Lecture Notes" />
+</bean>
+
+
 
 </beans>

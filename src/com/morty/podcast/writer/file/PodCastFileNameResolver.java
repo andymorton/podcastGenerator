@@ -146,8 +146,18 @@ public class PodCastFileNameResolver
             while(it.hasNext())
             {
                 PodCastFileNameField fnf = (PodCastFileNameField) it.next();
-                m_logger.info("splitFilename: Setting key["+fnf.getMappedName()+"] value["+parts[fnf.getPosition()]+"]");
-                returnValues.put(fnf.getMappedName(), parts[fnf.getPosition()]);
+                
+                if(fnf.getMappedValue() != null)
+                {
+                    m_logger.info("splitFilename: Setting key["+fnf.getMappedName()+"] value["+fnf.getMappedValue()+"]");
+                    returnValues.put(fnf.getMappedName(), fnf.getMappedValue());
+                }
+                else
+                {
+                    m_logger.info("splitFilename: Setting key["+fnf.getMappedName()+"] value["+parts[fnf.getPosition()]+"]");
+                    returnValues.put(fnf.getMappedName(), parts[fnf.getPosition()]);
+                }
+                    
             }
 
         }
