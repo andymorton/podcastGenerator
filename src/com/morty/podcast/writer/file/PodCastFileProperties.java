@@ -55,5 +55,20 @@ public class PodCastFileProperties
     public static final String FILE_MODULE="${module}";
 
 
+     /**
+     * Invalid reason
+     */
+    public static final String INVALID_REASON="${invalidReason}";
+
+
+     /**
+     * File Unresolvable
+     */
+    public static final String FILE_UNRESOLVABLE="Unresolvable";
+
+     /**
+     * Not Supported
+     */
+    public static final String FILE_NOT_SUPPORTED="Not Supported";
 
 }

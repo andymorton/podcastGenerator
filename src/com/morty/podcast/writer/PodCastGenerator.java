@@ -8,6 +8,7 @@ import com.morty.podcast.writer.excpt.PodCastCreationException;
 import com.morty.podcast.writer.constants.PodCastConstants;
 import com.morty.podcast.writer.file.PodCastFile;
 import com.morty.podcast.writer.file.PodCastFileNameResolver;
+import com.morty.podcast.writer.file.PodCastFileProperties;
 import com.sun.syndication.feed.module.itunes.EntryInformation;
 import com.sun.syndication.feed.module.itunes.EntryInformationImpl;
 import com.sun.syndication.feed.module.itunes.FeedInformation;
@@ -96,6 +97,9 @@ public class PodCastGenerator
     private Set<String> m_excludedFolders = new HashSet<String>();
     private PodCastFileNameResolver fileResolver = new PodCastFileNameResolver();
 
+    //Invalid files
+    private Map m_ignoredFiles = new HashMap();
+
 
     /**
      * Set the directory that we are looking at
@@ -167,6 +171,8 @@ public class PodCastGenerator
             //Process the files
             List podcastFiles = processMainDirectory();
             generateCompleteFeed(podcastFiles);
+
+            outputIgnoredFiles();
             
             m_logger.info("Finished");
         } 
@@ -229,6 +235,8 @@ public class PodCastGenerator
                     if(m_excludedFolders.contains(fileToCheck))
                     {
                         m_logger.debug("Skipping excluded folder ["+fileToCheck+"]");
+                        //Put these files in the list with an excluded reason
+                        m_ignoredFiles.put(file.getAbsolutePath()+File.separator+fileToCheck,PodCastConstants.FILE_EXCLUDED);
                         return false;
                     }
                     else return true;
@@ -265,7 +273,11 @@ public class PodCastGenerator
                 for (int p=0; p<podcastFiles.length;p++)
                 { 
                     if(!podcastFiles[p].isValid())
+                    {
                         m_logger.warn("Ignoring hidden/unresolved or info file ["+podcastFiles[p].getName()+"]");
+                        m_ignoredFiles.put(podcastFiles[p].getAbsolutePath(),podcastFiles[p].getProperty(PodCastFileProperties.INVALID_REASON));
+
+                    }
                     else
                         returnList.add(processFile(podcastFiles[p],category, parentDirectoryProperties));
                 }
@@ -452,6 +464,21 @@ public class PodCastGenerator
             m_logger.error("ERROR: " + ex.getMessage());
             throw new PodCastCreationException(ex.getLocalizedMessage());
         }
+    }
+
+    private void outputIgnoredFiles()
+    {
+        m_logger.info("=========================================================");
+        m_logger.info("Ignored Files");
+
+        Iterator it = m_ignoredFiles.keySet().iterator();
+        while(it.hasNext())
+        {
+            String file = (String) it.next();
+            String reason = (String) m_ignoredFiles.get(file);
+            m_logger.info(reason+"\t\t"+file);
+        }
+        m_logger.info("=========================================================");
     }
 
 

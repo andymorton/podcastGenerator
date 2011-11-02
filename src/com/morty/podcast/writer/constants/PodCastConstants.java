@@ -156,5 +156,20 @@ public class PodCastConstants
      */
     public static final String SUPPORTED_FILE_FORMATS_LIST="supportedFormats";
 
+
+    /**
+     * File Unresolvable
+     */
+    public static final String FILE_UNRESOLVABLE="Unresolvable";
+
+     /**
+     * Not Supported
+     */
+    public static final String FILE_NOT_SUPPORTED="Not Supported";
+
+     /**
+     * File excluded
+     */
+    public static final String FILE_EXCLUDED="File Excluded";
     
 }

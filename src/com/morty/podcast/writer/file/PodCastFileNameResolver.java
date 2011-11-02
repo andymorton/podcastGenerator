@@ -115,6 +115,7 @@ public class PodCastFileNameResolver
         //if it doesnt match a format, then just return an empty map
         Map invalidFile = new HashMap();
         invalidFile.put(PodCastFileProperties.FILE_VALID, Boolean.FALSE);
+        invalidFile.put(PodCastFileProperties.INVALID_REASON, PodCastConstants.FILE_UNRESOLVABLE);
         m_logger.warn("Invalid file set");
         return invalidFile;
 
@@ -202,6 +203,7 @@ public class PodCastFileNameResolver
             //This is an unsupported file type, so we ignore
             m_logger.warn("Ignoring Unsupported File Type ["+filename+"]");
             returnValues.put(PodCastFileProperties.FILE_VALID, Boolean.FALSE);
+            returnValues.put(PodCastFileProperties.INVALID_REASON, PodCastConstants.FILE_NOT_SUPPORTED);
             return returnValues;
         }
 

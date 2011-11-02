@@ -42,16 +42,36 @@
     </item>
     <item>
       <title>module1 Notes from 20110811</title>
-      <link>http://www.morty.com/module1/20110811.Unit1.Introduction.module1.pdf?dl=1</link>
-      <description>Module1 (Unit1) - Introduction</description>
-      <enclosure url="http://www.morty.com/module1/20110811.Unit1.Introduction.module1.pdf?dl=1" type="application/pdf" />
+      <link>http://www.morty.com/module1/20110811.Unit1.Introduction_to_mod1.module1.pdf?dl=1</link>
+      <description>Module1 (Unit1) - Introduction to mod1</description>
+      <enclosure url="http://www.morty.com/module1/20110811.Unit1.Introduction_to_mod1.module1.pdf?dl=1" type="application/pdf" />
       <category>module1</category>
-      <guid>http://www.morty.com/module1/20110811.Unit1.Introduction.module1.pdf?dl=1</guid>
+      <guid>http://www.morty.com/module1/20110811.Unit1.Introduction_to_mod1.module1.pdf?dl=1</guid>
       <itunes:duration>00:01:00</itunes:duration>
       <itunes:author>Module1 Lecturer</itunes:author>
       <itunes:explicit>no</itunes:explicit>
       <itunes:keywords>module1</itunes:keywords>
-      <itunes:summary>Module1 (Unit1) - Introduction</itunes:summary>
+      <itunes:summary>Module1 (Unit1) - Introduction to mod1</itunes:summary>
+      <itunes:owner>
+        <itunes:email />
+        <itunes:name />
+      </itunes:owner>
+      <itunes:image href="http://www.morty.com/image.jpg?dl=1" />
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:keywords />
+    </item>
+    <item>
+      <title>module1 Notes from Unit2</title>
+      <link>http://www.morty.com/module1/Unit2.pdf?dl=1</link>
+      <description>Module1 (Unit2) - Lecture Notes</description>
+      <enclosure url="http://www.morty.com/module1/Unit2.pdf?dl=1" type="application/pdf" />
+      <category>module1</category>
+      <guid>http://www.morty.com/module1/Unit2.pdf?dl=1</guid>
+      <itunes:duration>00:01:00</itunes:duration>
+      <itunes:author>Module1 Lecturer</itunes:author>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:keywords>module1</itunes:keywords>
+      <itunes:summary>Module1 (Unit2) - Lecture Notes</itunes:summary>
       <itunes:owner>
         <itunes:email />
         <itunes:name />
