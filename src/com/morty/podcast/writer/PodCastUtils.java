@@ -245,7 +245,7 @@ public class PodCastUtils
         while(it.hasNext())
         {
             String key= (String) it.next();
-            if(StringUtils.contains(returnValue, key))
+            if(StringUtils.contains(returnValue, key) && key.startsWith("$"))
             {
                 Object val = values.get(key);
                 if(!(val instanceof String))
