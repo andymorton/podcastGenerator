@@ -21,6 +21,10 @@
   <property name="httpRoot" value="http://www.morty.com" />
   <property name="simpleMode" value="false" />
   <property name="urlSuffix" value="?dl=1" />
+  <property name="validator" ref="validator" />
  </bean>
+
+ <bean id="validator" class="com.morty.podcast.writer.validation.StandardFileValidator" />
+
 
 </beans>

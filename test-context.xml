@@ -21,12 +21,16 @@
   <property name="httpRoot" value="http://www.morty.com" />
   <property name="simpleMode" value="false" />
   <property name="urlSuffix" value="?dl=1" />
+  <property name="validator" ref="validator" />
+  <property name="failOnValidation" value="false" />
   <property name="excludedFolders">
    <set>
     <value>module5</value>
    </set>
   </property>
  </bean>
+ 
+ <bean id="validator" class="com.morty.podcast.writer.validation.StandardFileValidator" />
  
  
  

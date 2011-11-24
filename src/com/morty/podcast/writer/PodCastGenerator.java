@@ -9,6 +9,7 @@ import com.morty.podcast.writer.constants.PodCastConstants;
 import com.morty.podcast.writer.file.PodCastFile;
 import com.morty.podcast.writer.file.PodCastFileNameResolver;
 import com.morty.podcast.writer.file.PodCastFileProperties;
+import com.morty.podcast.writer.validation.FolderValidator;
 import com.sun.syndication.feed.module.itunes.EntryInformation;
 import com.sun.syndication.feed.module.itunes.EntryInformationImpl;
 import com.sun.syndication.feed.module.itunes.FeedInformation;
@@ -39,7 +40,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -63,19 +63,14 @@ import org.apache.commons.logging.LogFactory;
  * This will create a podcast with categories of module name
  * Any file that starts '.' will be ignored
  *
- * In simple mode, it expects files with 'Unit1.mp3' filename format.
- * The filename without the suffix will be treated as the description
- *
- *
- * TODO: Custom file titles/desc
- *       Custom naming convention
- *       Add validation
- *       Allow mapping of module name to module category.
- *
  *
  * Modified 15/02/2011 to use the filename date of YYYYMMDD
  * Modified 25/07/2011 for major refactor and handle UTF8 filenames.
  * Modified September 2011 for new features.
+ *
+ * Major refactor to allow the custom naming, messaging and everything else.
+ * Validation has been implemented, but will probably be used as a once off check, as its not very customisable.
+ * Future implementations should use a wrapper around a FileFilter (see other project!)
  *
  * Copyright 2011
  * @author amorton
@@ -96,6 +91,10 @@ public class PodCastGenerator
     private String m_httpRoot = null;
     private Set<String> m_excludedFolders = new HashSet<String>();
     private PodCastFileNameResolver fileResolver = new PodCastFileNameResolver();
+
+    //Validation
+    private FolderValidator m_validator= null;
+    private boolean m_failOnValidation = false;
 
     //Invalid files
     private Map m_ignoredFiles = new HashMap();
@@ -155,6 +154,24 @@ public class PodCastGenerator
         this.m_excludedFolders = foldersToExclude;
     }
 
+
+    /**
+     * Allows for strict processing
+     * @param folderValidator
+     */
+    public void setValidator(FolderValidator fv)
+    {
+        this.m_validator = fv;
+    }
+
+     /**
+     * Allows for processing to be stopped!
+     * @param failOnValidation
+     */
+    public void setFailOnValidation(boolean fov)
+    {
+        this.m_failOnValidation = fov;
+    }
     
     
     
@@ -219,8 +236,16 @@ public class PodCastGenerator
         //Process the directory
         File directory = new File(m_directoryToTraverse);
        
-        //We get a list of modules from the directory names.
-        //File[] modules = directory.listFiles();
+        if(m_validator != null)
+        {
+            m_logger.info("Starting validation");
+            m_validator.setExcludedFolders(m_excludedFolders);
+            m_validator.setFolderToProcess(directory);
+            m_validator.setFailOnError(m_failOnValidation);
+            m_validator.process();
+            m_logger.info("Finished validation");
+        }
+
 
         //Allow folder exclusion
         File[] modules = directory.listFiles(new FilenameFilter() {

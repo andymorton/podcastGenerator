@@ -11,7 +11,8 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * 
+ * Used to check the filename is valid against the resolver!
+ * Very useful...
  * @author amorton
  */
 public class FileNameFormatTester

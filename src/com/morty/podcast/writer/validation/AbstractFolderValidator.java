@@ -22,10 +22,11 @@ import org.apache.commons.logging.LogFactory;
  *
  * @author amorton
  */
-public abstract class AbstractFolderValidator {
+public abstract class AbstractFolderValidator implements FolderValidator
+{
 
     //We need to look at the folder, and include any exclusion sets
-    protected static final Log m_logger = LogFactory.getLog(AbstractFolderValidator.class);
+    protected final Log m_logger = LogFactory.getLog(getClass());
     protected File m_folderToProcess;
     protected Set m_excludedFolders;
     protected boolean m_failOnError = false;
@@ -45,6 +46,6 @@ public abstract class AbstractFolderValidator {
         m_failOnError = fail;
     }
 
-    public abstract boolean process() throws Exception;
+    public abstract void process() throws Exception;
 
 }
