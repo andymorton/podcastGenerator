@@ -87,6 +87,7 @@ public class PodCastFileNameResolver
         Map props = getFileProperties(file.getName(), file.getParentProperties());
         PodCastUtils.printProperties(props);
         file.setProperties(props);
+
     }
 
     //Parse the filename to get properties from that.
@@ -126,8 +127,10 @@ public class PodCastFileNameResolver
     private Map splitFilename(String filename, PodCastFileNameFormat format, Map parentProps)
     {
         Map returnValues = new HashMap();
-        //Allow access to parent props in messages.
-        returnValues.putAll(parentProps);
+        
+        //Allow access to parent props in messages - only if not null!
+        if(parentProps != null)
+            returnValues.putAll(parentProps);
 
         returnValues.put(PodCastFileProperties.FILE_VALID, Boolean.TRUE);
 

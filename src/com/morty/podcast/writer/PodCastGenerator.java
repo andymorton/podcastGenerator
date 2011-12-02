@@ -4,6 +4,7 @@
 
 package com.morty.podcast.writer;
 
+import com.morty.podcast.writer.file.processor.PodCastFileProcessor;
 import com.morty.podcast.writer.excpt.PodCastCreationException;
 import com.morty.podcast.writer.constants.PodCastConstants;
 import com.morty.podcast.writer.file.PodCastFile;
@@ -90,7 +91,9 @@ public class PodCastGenerator
     private String m_urlSuffix = "";
     private String m_httpRoot = null;
     private Set<String> m_excludedFolders = new HashSet<String>();
-    private PodCastFileNameResolver fileResolver = new PodCastFileNameResolver();
+    private PodCastFileNameResolver m_fileResolver = new PodCastFileNameResolver();
+    private PodCastFileProcessor m_fileProcessor;
+
 
     //Validation
     private FolderValidator m_validator= null;
@@ -172,6 +175,15 @@ public class PodCastGenerator
     {
         this.m_failOnValidation = fov;
     }
+
+    /**
+     * Allows processor to run
+     */
+    public void setProcessor(PodCastFileProcessor pcfp)
+    {
+        this.m_fileProcessor = pcfp;
+    }
+
     
     
     
@@ -290,7 +302,7 @@ public class PodCastGenerator
                     //also contain the right characters!
                     podcastFiles[counter] = new PodCastFile(PodCastUtils.convertToUTF8(originalFiles[counter].getAbsolutePath()));
                     podcastFiles[counter].setParentProperties(parentDirectoryProperties);
-                    fileResolver.formatFile(podcastFiles[counter]);
+                    m_fileResolver.formatFile(podcastFiles[counter]);
                     
                 }
                 
@@ -304,7 +316,16 @@ public class PodCastGenerator
 
                     }
                     else
+                    {
+                        //Use file processor to do stuff to the file!
+                        if(m_fileProcessor != null)
+                            m_fileProcessor.process(podcastFiles[p]);
+
+
+                        //add to the list...
                         returnList.add(processFile(podcastFiles[p],category, parentDirectoryProperties));
+                    }
+                        
                 }
 
             }

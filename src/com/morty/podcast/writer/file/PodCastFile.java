@@ -94,7 +94,8 @@ public class PodCastFile extends File
 
     public boolean hasProperty(String key)
     {
-        return m_internalProperties.containsKey(key) || m_parentPropeties.containsKey(key);
+        return (m_internalProperties != null && m_internalProperties.containsKey(key)) ||
+                (m_parentPropeties != null && m_parentPropeties.containsKey(key));
     }
 
     public Object getProperty(String key)
@@ -251,6 +252,13 @@ public class PodCastFile extends File
     {
         //Set during the formatter
         return (String) this.getProperty(PodCastFileProperties.FILE_MIME_TYPE);
+    }
+
+    public String getSuffix()
+    {
+        if(this.hasProperty(PodCastFileProperties.FILE_SUFFIX))
+            return (String) this.getProperty(PodCastFileProperties.FILE_SUFFIX);
+        else return null;
     }
 
 
