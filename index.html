@@ -33,11 +33,19 @@
       <section id="main_content" class="inner">
         <h3>Welcome to the Podcast Generator</h3>
 
-<p>Here you will find details of the Podcast Generator that has been developed to allow a quick, automated way to take a folder structure and turn it into a podcast.  Combined with Dropbox, you can have a podcast live in seconds.</p>
+<p>Here you will find details of the Podcast Generator that has been developed to allow a quick, automated way to take a folder structure and turn it into a podcast.  Combined with Dropbox, you can have a podcast live in seconds.  To get a podcast up and running, just alter the supported-files.xml to allow your file format, then create a configuration file.  Set up your classpath like this (this is for Windows - you Linux guys know what your doing!)</p>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
+<pre><code>$ echo off
+$setlocal enabledelayedexpansion
+$set cp=lib;config;.;./podcastGenerator.jar
+
+for %%f in (lib/*.jar) do (set cp=!cp!;lib/%%f%)
+</code></pre>
+
+<p>Then run it like so...</p>
+
+<pre><code>
+$ java -cp %cp% com.morty.podcast.writer.PodCastCreationRunner %1 > %2
 </code></pre>
 
 <p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
