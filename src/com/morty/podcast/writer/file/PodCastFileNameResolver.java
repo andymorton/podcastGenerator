@@ -195,7 +195,7 @@ public class PodCastFileNameResolver
         //Make it case-insensitive
         String messageAndMime;
         if( returnValues.get(PodCastFileProperties.FILE_SUFFIX) != null && 
-                format.getFormatMessages().containsKey( returnValues.get(PodCastFileProperties.FILE_SUFFIX).toLowerCase() ) )
+                format.getFormatMessages().containsKey( ((String)returnValues.get(PodCastFileProperties.FILE_SUFFIX)).toLowerCase() ) )
         {
             m_logger.info("File Suffix ["+returnValues.get(PodCastFileProperties.FILE_SUFFIX)+"] found");
             messageAndMime = (String)format.getFormatMessages().get(returnValues.get(PodCastFileProperties.FILE_SUFFIX));
