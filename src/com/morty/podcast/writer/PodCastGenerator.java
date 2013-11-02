@@ -100,6 +100,19 @@ public class PodCastGenerator
     private Map m_ignoredFiles = new HashMap();
 
 
+    //Override value for the http link for the feed.
+    private String m_feedLink = null;
+
+    /**
+     * Set the feed link override text
+     * @param link
+     */ 
+     publiv void setFeedLink(String link)
+     {
+         this.m_feedLink = link;
+     }
+
+
     /**
      * Set the directory that we are looking at
      * @param dir
@@ -371,7 +384,10 @@ public class PodCastGenerator
             feed.setFeedType(PodCastConstants.FEED_TYPE);
 
             feed.setTitle(PodCastUtils.getMapValue(defaultFeedValues,PodCastConstants.FEED_TITLE_KEY, PodCastConstants.DEFAULT_FEED_TITLE));
-            feed.setLink(PodCastUtils.generateHttpLink(m_httpRoot,m_fileToCreate,m_urlSuffix));
+            if(m_feedLink == null)
+                feed.setLink(PodCastUtils.generateHttpLink(m_httpRoot,m_fileToCreate,m_urlSuffix));
+            else
+                feed.setLink(m_feedLink);
             feed.setDescription(PodCastUtils.getMapValue(defaultFeedValues,PodCastConstants.FEED_DESCRIPTION_KEY, PodCastConstants.DEFAULT_FEED_DESCRIPTION));
             feed.setCopyright(PodCastUtils.getMapValue(defaultFeedValues,PodCastConstants.FEED_COPYRIGHT_KEY, PodCastConstants.DEFAULT_FEED_COPYRIGHT));
             
