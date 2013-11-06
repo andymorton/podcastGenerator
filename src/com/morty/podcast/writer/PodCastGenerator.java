@@ -107,7 +107,7 @@ public class PodCastGenerator
      * Set the feed link override text
      * @param link
      */ 
-     publiv void setFeedLink(String link)
+     public void setFeedLink(String link)
      {
          this.m_feedLink = link;
      }
