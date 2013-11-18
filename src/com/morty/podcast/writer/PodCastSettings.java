@@ -2,7 +2,7 @@
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
-package com.morty.podcast.writer.api;
+package com.morty.podcast.writer;
 
 /**
  * This is a class that can be populated in Spring context to put settings in
@@ -11,6 +11,7 @@ package com.morty.podcast.writer.api;
  */
 public class PodCastSettings
 {
+    private boolean m_simpleMode = false;
     private String m_fileToCreate = null;
     private String m_directoryToTraverse = null;
     private String m_urlSuffix = "";
@@ -43,7 +44,14 @@ public class PodCastSettings
         this.m_httpRoot = httproot;
     }
 
-    
+    /**
+     * Boolean to run in simple mode
+     * @param simpleMode
+     */
+    public void setSimpleMode(boolean simpleMode)
+    {
+        this.m_simpleMode = simpleMode;
+    }
 
     /**
      * Add in an optional url suffix
@@ -69,6 +77,11 @@ public class PodCastSettings
     public String getHttpRoot()
     {
         return m_httpRoot;
+    }
+
+    public boolean isSimpleMode()
+    {
+        return m_simpleMode;
     }
 
     public String getUrlSuffix()

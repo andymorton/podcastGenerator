@@ -2,13 +2,13 @@
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
-package com.morty.podcast.writer.excpt;
+package com.morty.podcast.writer;
 
 /**
  * Custom Exception for podcast Creation
  * @author amorton
  */
-public class PodCastCreationException extends Exception
+class PodCastCreationException extends Exception
 {
 
     public PodCastCreationException()

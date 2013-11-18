@@ -2,7 +2,7 @@
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
-package com.morty.podcast.writer.constants;
+package com.morty.podcast.writer;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -14,7 +14,6 @@ import javax.annotation.PostConstruct;
  */
 public class PodCastConstants
 {
-
     
     @PostConstruct
     private void init()
@@ -145,31 +144,14 @@ public class PodCastConstants
      */
     public static final String PODCAST_GENERATOR_BEAN="podCastGenerator";
 
+    /**
+     * Default fields for parameters
+     */
+    public static final String PARSED_DATE="${date}";
+    public static final String PARSED_UNIT="${unit}";
+    public static final String PARSED_DESC="${description}";
+    public static final String PARSED_MODULE="${module}";
+
     
-    /**
-     * Filename for supported File formats
-     */
-    public static final String SUPPORTED_FILE_FORMATS="supported-files.xml";
-    
-    /**
-     * Format listing in the xml file.
-     */
-    public static final String SUPPORTED_FILE_FORMATS_LIST="supportedFormats";
-
-
-    /**
-     * File Unresolvable
-     */
-    public static final String FILE_UNRESOLVABLE="Unresolvable";
-
-     /**
-     * Not Supported
-     */
-    public static final String FILE_NOT_SUPPORTED="Not Supported";
-
-     /**
-     * File excluded
-     */
-    public static final String FILE_EXCLUDED="File Excluded";
     
 }
